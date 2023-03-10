@@ -6,7 +6,7 @@
 
     <groupId>de.app.5gla</groupId>
     <artifactId>fiware-integration-layer</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 
     <name>5gLa FIWARE integration layer</name>
     <url>https://github.com/vitrum-connect/5gla-fiware-integration-layer</url>
@@ -36,7 +36,7 @@
     <distributionManagement>
         <repository>
             <id>github</id>
-            <name>GitHub DKE-Data Apache Maven Packages</name>
+            <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/vitrum-connect/5gla-fiware-integration-layer</url>
         </repository>
     </distributionManagement>
@@ -49,9 +49,19 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.26</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.6.1</version>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -66,6 +76,19 @@
                 </includes>
             </resource>
         </resources>
+        <plugins>
+            <!-- Surefire -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*IntegrationTest.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
