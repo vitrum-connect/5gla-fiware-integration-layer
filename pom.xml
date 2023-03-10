@@ -27,17 +27,17 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git:github.com/vitrum-connect/5gla-fiware-integration-laye.git</connection>
-        <developerConnection>scm:git:git@github.com:vitrum-connect/5gla-fiware-integration-laye.git
+        <connection>scm:git:git:github.com/vitrum-connect/5gla-fiware-integration-layer.git</connection>
+        <developerConnection>scm:git:git@github.com:vitrum-connect/5gla-fiware-integration-layer.git
         </developerConnection>
-        <url>https://github.com/vitrum-connect/5gla-fiware-integration-laye</url>
+        <url>https://github.com/vitrum-connect/5gla-fiware-integration-layer</url>
     </scm>
 
     <distributionManagement>
         <repository>
             <id>github</id>
             <name>GitHub DKE-Data Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/DKE-Data/agrirouter-sdk-java</url>
+            <url>https://maven.pkg.github.com/vitrum-connect/5gla-fiware-integration-layer</url>
         </repository>
     </distributionManagement>
 
