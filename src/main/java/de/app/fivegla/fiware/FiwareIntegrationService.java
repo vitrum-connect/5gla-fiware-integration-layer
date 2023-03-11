@@ -3,6 +3,7 @@ package de.app.fivegla.fiware;
 import com.google.gson.Gson;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.Device;
+import de.app.fivegla.fiware.request.UpdateOrCreateEntityRequest;
 import lombok.extern.java.Log;
 
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -42,6 +45,7 @@ public class FiwareIntegrationService {
      *
      * @return the current version
      */
+    @SuppressWarnings("unused")
     public String getCurrentVersion() {
         return properties.getProperty(PropertyKeys.APP_VERSION);
     }
@@ -51,23 +55,82 @@ public class FiwareIntegrationService {
      *
      * @param device the device to create
      */
-    public void createDevice(Device device) {
+    public void persist(Device device) {
+        var updateOrCreateEntityRequest = UpdateOrCreateEntityRequest.builder()
+                .entities(List.of(device))
+                .build();
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/entities"))
+                .uri(URI.create(contextBrokerUrl + "/op/update"))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(device))).build();
+                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(updateOrCreateEntityRequest))).build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 201) {
+            if (response.statusCode() != 204) {
                 log.log(Level.SEVERE, "Could not create device. Response: " + response.body());
+                log.log(Level.FINE, "Request: " + GSON.toJson(updateOrCreateEntityRequest));
+                log.log(Level.FINE, "Response: " + response.body());
                 throw new FiwareIntegrationLayerException("Could not create device, there was an error from FIWARE.");
             } else {
-                log.log(Level.INFO, "Device created successfully.");
+                log.log(Level.INFO, "Device created/updated successfully.");
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Could not create device.", e);
-            throw new FiwareIntegrationLayerException("Could not create device");
+            log.log(Level.SEVERE, "Could not create/update device.", e);
+            throw new FiwareIntegrationLayerException("Could not create/update device");
+        }
+    }
+
+    /**
+     * Checks if a device with the given id exists.
+     *
+     * @param deviceId the device to check
+     * @return true if the device exists, false otherwise
+     */
+    public boolean exists(String deviceId) {
+        var httpClient = HttpClient.newHttpClient();
+        var httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(contextBrokerUrl + "/entities/" + deviceId))
+                .GET().build();
+        try {
+            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                log.log(Level.WARNING, String.format("Device with the ID '%s' does not exist.", deviceId));
+                log.log(Level.FINE, "Response: " + response.body());
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Could not check if device exists.", e);
+            throw new FiwareIntegrationLayerException("Could not check if device exists.");
+        }
+    }
+
+    /**
+     * Returns the device with the given id.
+     *
+     * @param deviceId the id of the device
+     * @return the device
+     */
+    public Optional<Device> readDevice(String deviceId) {
+        var httpClient = HttpClient.newHttpClient();
+        var httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(contextBrokerUrl + "/entities/" + deviceId))
+                .GET().build();
+        try {
+            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) {
+                log.log(Level.WARNING, String.format("Device with the ID '%s' does not exist.", deviceId));
+                log.log(Level.FINE, "Response: " + response.body());
+                return Optional.empty();
+            } else {
+                log.log(Level.INFO, "Device read successfully.");
+                log.log(Level.FINE, "Response: " + response.body());
+                return Optional.of(GSON.fromJson(response.body(), Device.class));
+            }
+        } catch (Exception e) {
+            log.log(Level.SEVERE, "Could not read the device.", e);
+            throw new FiwareIntegrationLayerException("Could not read the device.");
         }
     }
 

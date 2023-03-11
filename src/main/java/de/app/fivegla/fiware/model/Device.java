@@ -2,6 +2,7 @@ package de.app.fivegla.fiware.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Device model.
@@ -10,6 +11,7 @@ import lombok.Getter;
  * <p>
  */
 @Getter
+@Setter
 @Builder
 public class Device {
 
