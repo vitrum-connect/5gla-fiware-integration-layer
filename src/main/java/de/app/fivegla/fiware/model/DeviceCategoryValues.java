@@ -7,7 +7,8 @@ import lombok.Getter;
  */
 public enum DeviceCategoryValues {
 
-    SoilScoutSensor("soilScoutSensor");
+    SoilScoutSensor("soilScoutSensor"),
+    Farm21Sensor("farm21Sensor");
 
     @Getter
     private final String key;
