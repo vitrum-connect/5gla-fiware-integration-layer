@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware.model;
+package de.app.fivegla.fiware.api.enums;
 
 import lombok.Getter;
 

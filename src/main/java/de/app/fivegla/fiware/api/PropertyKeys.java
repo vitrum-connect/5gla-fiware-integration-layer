@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware;
+package de.app.fivegla.fiware.api;
 
 public interface PropertyKeys {
 
