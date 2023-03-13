@@ -1,7 +1,7 @@
 package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.PropertyKeys;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -9,7 +9,7 @@ import java.util.Properties;
 /**
  * Integration service for FIWARE to send requests to the context broker.
  */
-@Log
+@Slf4j
 @SuppressWarnings("unused")
 public class PackageInformationService {
 
