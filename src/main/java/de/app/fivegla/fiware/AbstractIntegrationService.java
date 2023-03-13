@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.api.Validatable;
 import de.app.fivegla.fiware.request.UpdateOrCreateEntityRequest;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,12 +12,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
 
 /**
  * Abstract integration service.
  */
-@Log
+@Slf4j
 public abstract class AbstractIntegrationService<T extends Validatable> {
 
     static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
@@ -45,15 +44,14 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 204) {
-                log.log(Level.SEVERE, "Could not create entity. Response: " + response.body());
-                log.log(Level.FINE, "Request: " + GSON.toJson(updateOrCreateEntityRequest));
-                log.log(Level.FINE, "Response: " + response.body());
+                log.error("Could not create entity. Response: " + response.body());
+                log.debug("Request: " + GSON.toJson(updateOrCreateEntityRequest));
+                log.debug("Response: " + response.body());
                 throw new FiwareIntegrationLayerException("Could not create entity, there was an error from FIWARE.");
             } else {
-                log.log(Level.INFO, "Device created/updated successfully.");
+                log.info("Device created/updated successfully.");
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Could not create/update entity.", e);
             throw new FiwareIntegrationLayerException("Could not create/update entity");
         }
     }
@@ -72,14 +70,13 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
-                log.log(Level.WARNING, String.format("Device with the ID '%s' does not exist.", id));
-                log.log(Level.FINE, "Response: " + response.body());
+                log.warn("Device with the ID '{}' does not exist.", id);
+                log.debug("Response: " + response.body());
                 return false;
             } else {
                 return true;
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Could not check if device exists.", e);
             throw new FiwareIntegrationLayerException("Could not check if device exists.");
         }
     }
@@ -98,16 +95,15 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) {
-                log.log(Level.WARNING, String.format("Device with the ID '%s' does not exist.", id));
-                log.log(Level.FINE, "Response: " + response.body());
+                log.warn("Device with the ID '{}' does not exist.", id);
+                log.debug("Response: " + response.body());
                 return Optional.empty();
             } else {
-                log.log(Level.INFO, "Device read successfully.");
-                log.log(Level.FINE, "Response: " + response.body());
+                log.info("Device read successfully.");
+                log.debug("Response: " + response.body());
                 return Optional.of(parseResponse(response.body()));
             }
         } catch (Exception e) {
-            log.log(Level.SEVERE, "Could not read the device.", e);
             throw new FiwareIntegrationLayerException("Could not read the device.");
         }
     }

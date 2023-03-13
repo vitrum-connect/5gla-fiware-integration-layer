@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-class DeviceMeasurementIntegrationServiceIntegrationTest {
+class DeviceMeasurementIntegrationServiceIT {
 
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
