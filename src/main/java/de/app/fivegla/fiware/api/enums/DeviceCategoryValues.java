@@ -9,7 +9,6 @@ public enum DeviceCategoryValues {
 
     SoilScoutSensor("soilScoutSensor"),
     Farm21Sensor("farm21Sensor"),
-
     MicaSenseDrone("micaSenseDrone");
 
     @Getter
