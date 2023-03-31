@@ -10,7 +10,8 @@ public enum Types {
     Device("Device"),
     Text("Text"),
     Point("Point"),
-    DeviceMeasurement("DeviceMeasurement");
+    DeviceMeasurement("DeviceMeasurement"),
+    DroneDeviceMeasurement("DroneDeviceMeasurement");
 
     @Getter
     private final String key;
