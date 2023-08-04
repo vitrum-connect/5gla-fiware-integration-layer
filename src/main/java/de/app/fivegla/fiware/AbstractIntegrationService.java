@@ -52,7 +52,7 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
                 log.info("Device created/updated successfully.");
             }
         } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not create/update entity");
+            throw new FiwareIntegrationLayerException("Could not create/update entity", e);
         }
     }
 
@@ -77,7 +77,7 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
                 return true;
             }
         } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not check if device exists.");
+            throw new FiwareIntegrationLayerException("Could not check if device exists.", e);
         }
     }
 
@@ -104,7 +104,7 @@ public abstract class AbstractIntegrationService<T extends Validatable> {
                 return Optional.of(parseResponse(response.body()));
             }
         } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not read the device.");
+            throw new FiwareIntegrationLayerException("Could not read the device.", e);
         }
     }
 
