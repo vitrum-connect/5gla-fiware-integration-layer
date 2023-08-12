@@ -1,8 +1,8 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import de.app.fivegla.fiware.model.Device;
 import de.app.fivegla.fiware.model.DeviceCategory;
-import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
