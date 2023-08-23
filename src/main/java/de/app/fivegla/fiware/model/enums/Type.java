@@ -1,11 +1,11 @@
-package de.app.fivegla.fiware.api.enums;
+package de.app.fivegla.fiware.model.enums;
 
 import lombok.Getter;
 
 /**
  * Device category values.
  */
-public enum Types {
+public enum Type {
 
     Device("Device"),
     Text("Text"),
@@ -16,7 +16,7 @@ public enum Types {
     @Getter
     private final String key;
 
-    Types(String key) {
+    Type(String key) {
         this.key = key;
     }
 }

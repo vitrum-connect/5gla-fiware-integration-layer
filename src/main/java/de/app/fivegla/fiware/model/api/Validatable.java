@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware.api;
+package de.app.fivegla.fiware.model.api;
 
 /**
  * Interface for validation.

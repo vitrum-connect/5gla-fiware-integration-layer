@@ -1,10 +1,9 @@
 package de.app.fivegla.fiware.model;
 
-import de.app.fivegla.fiware.api.Validatable;
-import de.app.fivegla.fiware.api.enums.Types;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import de.app.fivegla.fiware.model.api.Validatable;
+import de.app.fivegla.fiware.model.enums.Type;
+import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,12 +14,15 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Device implements Validatable {
 
     /**
      * The type of the device.
      */
-    private final String type = Types.Device.getKey();
+    private final String type = Type.Device.getKey();
 
     /**
      * The ID of the device.
