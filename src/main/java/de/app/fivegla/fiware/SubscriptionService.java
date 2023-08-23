@@ -62,7 +62,9 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
                 throw new FiwareIntegrationLayerException("Could not find subscription, there was an error from FIWARE.");
             } else {
                 log.info("Subscription found successfully.");
-                return toListOfObjects(response.body());
+                return toListOfObjects(response.body()).stream().filter(subscription -> subscription.getSubject().getEntities()
+                        .stream()
+                        .anyMatch(entity -> entity.getType().equals(type.getKey()))).toList();
             }
         } catch (Exception e) {
             throw new FiwareIntegrationLayerException("Could not find subscription", e);

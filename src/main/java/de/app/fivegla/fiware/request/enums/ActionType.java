@@ -5,11 +5,11 @@ import lombok.Getter;
 /**
  * Action type.
  */
+@Getter
 public enum ActionType {
 
     APPEND("append");
 
-    @Getter
     private final String key;
 
     ActionType(String key) {

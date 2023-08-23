@@ -2,8 +2,6 @@ package de.app.fivegla.fiware;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,8 +15,6 @@ import java.util.List;
 public abstract class AbstractIntegrationService<T> {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    private static final ObjectWriter OBJECT_WRITER = OBJECT_MAPPER.writer().withDefaultPrettyPrinter();
-    private static final ObjectReader OBJECT_READER = OBJECT_MAPPER.reader();
     final String contextBrokerUrl;
 
     public AbstractIntegrationService(String contextBrokerUrl) {
@@ -34,7 +30,7 @@ public abstract class AbstractIntegrationService<T> {
      */
     String toJson(Object object) {
         try {
-            return OBJECT_WRITER.writeValueAsString(object);
+            return OBJECT_MAPPER.writer().withDefaultPrettyPrinter().writeValueAsString(object);
         } catch (JsonProcessingException e) {
             throw new FiwareIntegrationLayerException("Could not transform object to JSON.", e);
         }
@@ -42,7 +38,6 @@ public abstract class AbstractIntegrationService<T> {
 
     T toObject(String json) {
         try {
-            //noinspection Convert2Diamond
             var type = OBJECT_MAPPER.getTypeFactory()
                     .constructType(getEntityClass());
             return OBJECT_MAPPER.readValue(json, type);

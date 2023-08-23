@@ -5,6 +5,7 @@ import lombok.Getter;
 /**
  * Device category values.
  */
+@Getter
 public enum Type {
 
     Device("Device"),
@@ -13,7 +14,6 @@ public enum Type {
     DeviceMeasurement("DeviceMeasurement"),
     DroneDeviceMeasurement("DroneDeviceMeasurement");
 
-    @Getter
     private final String key;
 
     Type(String key) {
