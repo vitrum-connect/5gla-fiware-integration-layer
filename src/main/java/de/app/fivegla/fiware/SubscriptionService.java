@@ -27,6 +27,11 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         this.notificationUrl = notificationUrl;
     }
 
+    public void subscribeAndReset(Type type) {
+        removeAll(type);
+        subscribe(type);
+    }
+
     public void subscribe(Type type) {
         var httpClient = HttpClient.newHttpClient();
         var subscription = createSubscriptionForType(type);
@@ -46,6 +51,29 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
             }
         } catch (Exception e) {
             throw new FiwareIntegrationLayerException("Could not create/update subscription", e);
+        }
+    }
+
+    public void removeAll(Type type) {
+        findAll(type).forEach(this::removeSubscription);
+    }
+
+    private void removeSubscription(Subscription subscription) {
+        var httpClient = HttpClient.newHttpClient();
+        var httpRequest = HttpRequest.newBuilder()
+                .uri(URI.create(contextBrokerUrl + "/subscriptions/" + subscription.getId()))
+                .DELETE().build();
+        try {
+            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 204) {
+                log.error("Could not remove subscription. Response: " + response.body());
+                log.debug("Response: " + response.body());
+                throw new FiwareIntegrationLayerException("Could not remove subscription, there was an error from FIWARE.");
+            } else {
+                log.info("Subscription removed successfully.");
+            }
+        } catch (Exception e) {
+            throw new FiwareIntegrationLayerException("Could not remove subscription", e);
         }
     }
 
