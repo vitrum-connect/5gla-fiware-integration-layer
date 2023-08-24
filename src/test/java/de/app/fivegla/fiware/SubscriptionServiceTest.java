@@ -34,4 +34,17 @@ class SubscriptionServiceTest {
         Assertions.assertEquals(0, subscriptions.size());
     }
 
+    @Test
+    void givenExistingSubscriptionWhenSubscribingAndResettingTheNumberOfExistingSubscriptionsShouldStayTheSame() {
+        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026/v2", "http://192.168.56.1:5055/notify");
+        fiwareIntegrationService.subscribe(Type.Device);
+        var subscriptions = fiwareIntegrationService.findAll(Type.Device);
+        Assertions.assertNotNull(subscriptions);
+        Assertions.assertEquals(1, subscriptions.size());
+        fiwareIntegrationService.subscribeAndReset(Type.Device);
+        subscriptions = fiwareIntegrationService.findAll(Type.Device);
+        Assertions.assertNotNull(subscriptions);
+        Assertions.assertEquals(1, subscriptions.size());
+    }
+
 }
