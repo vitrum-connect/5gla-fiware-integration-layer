@@ -1,15 +1,15 @@
-package de.app.fivegla.fiware.api.enums;
+package de.app.fivegla.fiware.request.enums;
 
 import lombok.Getter;
 
 /**
  * Action type.
  */
+@Getter
 public enum ActionType {
 
     APPEND("append");
 
-    @Getter
     private final String key;
 
     ActionType(String key) {

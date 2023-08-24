@@ -1,118 +1,65 @@
 package de.app.fivegla.fiware;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.api.Validatable;
-import de.app.fivegla.fiware.request.UpdateOrCreateEntityRequest;
 import lombok.extern.slf4j.Slf4j;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Abstract integration service.
  */
 @Slf4j
-public abstract class AbstractIntegrationService<T extends Validatable> {
+public abstract class AbstractIntegrationService<T> {
 
-    static final Gson GSON = new Gson().newBuilder().setPrettyPrinting().create();
-    private final String contextBrokerUrl;
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+    final String contextBrokerUrl;
 
     public AbstractIntegrationService(String contextBrokerUrl) {
         this.contextBrokerUrl = contextBrokerUrl;
     }
 
     /**
-     * Creates a new device in the context broker.
+     * Converts the current object to a JSON string representation.
      *
-     * @param entity the device to create
+     * @param object the object to convert
+     * @return a JSON string representing the current object
+     * @throws FiwareIntegrationLayerException if an error occurs while transforming the object to JSON
      */
-    public void persist(T entity) {
-        entity.validate();
-        var updateOrCreateEntityRequest = UpdateOrCreateEntityRequest.builder()
-                .entities(List.of(entity))
-                .build();
-        var httpClient = HttpClient.newHttpClient();
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/op/update" + "?options=keyValues"))
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(updateOrCreateEntityRequest))).build();
+    String toJson(Object object) {
         try {
-            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 204) {
-                log.error("Could not create entity. Response: " + response.body());
-                log.debug("Request: " + GSON.toJson(updateOrCreateEntityRequest));
-                log.debug("Response: " + response.body());
-                throw new FiwareIntegrationLayerException("Could not create entity, there was an error from FIWARE.");
-            } else {
-                log.info("Device created/updated successfully.");
-            }
-        } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not create/update entity", e);
+            return OBJECT_MAPPER.writer().withDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new FiwareIntegrationLayerException("Could not transform object to JSON.", e);
         }
     }
 
-    /**
-     * Checks if a device with the given id exists.
-     *
-     * @param id the device to check
-     * @return true if the device exists, false otherwise
-     */
-    public boolean exists(String id) {
-        var httpClient = HttpClient.newHttpClient();
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/entities/" + id))
-                .GET().build();
+    T toObject(String json) {
         try {
-            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                log.warn("Device with the ID '{}' does not exist.", id);
-                log.debug("Response: " + response.body());
-                return false;
-            } else {
-                return true;
-            }
-        } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not check if device exists.", e);
+            var type = OBJECT_MAPPER.getTypeFactory()
+                    .constructType(getEntityClass());
+            return OBJECT_MAPPER.readValue(json, type);
+        } catch (IOException e) {
+            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
         }
     }
 
-    /**
-     * Returns the device with the given id.
-     *
-     * @param id the id of the device
-     * @return the device
-     */
-    public Optional<T> read(String id) {
-        var httpClient = HttpClient.newHttpClient();
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/entities/" + id + "?options=keyValues"))
-                .GET().build();
+    List<T> toListOfObjects(String json) {
         try {
-            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 200) {
-                log.warn("Device with the ID '{}' does not exist.", id);
-                log.debug("Response: " + response.body());
-                return Optional.empty();
-            } else {
-                log.info("Device read successfully.");
-                log.debug("Response: " + response.body());
-                return Optional.of(parseResponse(response.body()));
-            }
-        } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not read the device.", e);
+            var type = OBJECT_MAPPER.getTypeFactory()
+                    .constructCollectionType(List.class, getEntityClass());
+            return OBJECT_MAPPER.readValue(json, type);
+        } catch (IOException e) {
+            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
         }
     }
 
-    /**
-     * Parses the response from the context broker.
-     *
-     * @return the specific entity
-     */
-    abstract T parseResponse(String responseBody);
+    Class<T> getEntityClass() {
+        //noinspection unchecked
+        return (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
+
 
 }

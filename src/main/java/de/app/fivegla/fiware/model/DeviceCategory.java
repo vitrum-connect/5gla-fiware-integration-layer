@@ -1,9 +1,8 @@
 package de.app.fivegla.fiware.model;
 
-import de.app.fivegla.fiware.api.enums.Types;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import de.app.fivegla.fiware.model.enums.Type;
+import lombok.*;
 
 import java.util.List;
 
@@ -15,12 +14,15 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeviceCategory {
 
     /**
      * The type of the device category.
      */
-    private final String type = Types.Text.getKey();
+    private final String type = Type.Text.getKey();
 
     /**
      * The value of the device category.
