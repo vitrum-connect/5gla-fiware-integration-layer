@@ -9,13 +9,13 @@ class SubscriptionServiceIT {
 
     @AfterEach
     void tearDown() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026/v2", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "http://192.168.56.1:5055/notify");
         fiwareIntegrationService.removeAll(Type.Device);
     }
 
     @Test
     void givenValidSubscriptionWhenSendingSubscriptionToFiwareThereShouldBeNoError() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026/v2", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "http://192.168.56.1:5055/notify");
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);
@@ -23,7 +23,7 @@ class SubscriptionServiceIT {
 
     @Test
     void givenExistingSubscriptionWhenRemovingAllSubscriptionsTheNumberOfExistingSubscriptionsShouldBeNull() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026/v2", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "http://192.168.56.1:5055/notify");
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);
@@ -36,7 +36,7 @@ class SubscriptionServiceIT {
 
     @Test
     void givenExistingSubscriptionWhenSubscribingAndResettingTheNumberOfExistingSubscriptionsShouldStayTheSame() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026/v2", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "http://192.168.56.1:5055/notify");
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);

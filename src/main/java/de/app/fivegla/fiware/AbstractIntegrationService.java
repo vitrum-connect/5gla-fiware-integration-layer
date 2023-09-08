@@ -15,10 +15,28 @@ import java.util.List;
 public abstract class AbstractIntegrationService<T> {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-    final String contextBrokerUrl;
+    private final String contextBrokerUrl;
 
     public AbstractIntegrationService(String contextBrokerUrl) {
         this.contextBrokerUrl = contextBrokerUrl;
+    }
+
+    /**
+     * Returns the URL of the context broker.
+     *
+     * @return the URL of the context broker
+     */
+    String contextBrokerUrl() {
+        return contextBrokerUrl;
+    }
+
+    /**
+     * Returns the URL of the context broker for commands.
+     *
+     * @return the URL of the context broker for commands
+     */
+    String contextBrokerUrlForCommands() {
+        return contextBrokerUrl + "/v2";
     }
 
     /**

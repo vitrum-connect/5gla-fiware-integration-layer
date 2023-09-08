@@ -34,7 +34,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
                 .build();
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/op/update" + "?options=keyValues"))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/op/update" + "?options=keyValues"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(updateOrCreateEntityRequest))).build();
         try {
@@ -61,7 +61,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
     public boolean exists(String id) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/entities/" + id))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/entities/" + id))
                 .GET().build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -86,7 +86,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
     public Optional<T> read(String id) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/entities/" + id + "?options=keyValues"))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/entities/" + id + "?options=keyValues"))
                 .GET().build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
