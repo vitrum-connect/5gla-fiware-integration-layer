@@ -14,10 +14,16 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Version {
+
     /**
-     * The version.
+     * The version of the orion ld.
      */
-    private String version;
+    private String orionLdVersion;
+
+    /**
+     * The version of the orion.
+     */
+    private String orionVersion;
 
     /**
      * The uptime.
@@ -55,13 +61,7 @@ public class Version {
     private String releaseDate;
 
     /**
-     * The machine.
-     */
-    private String machine;
-
-    /**
      * The doc.
      */
     private String doc;
-
 }

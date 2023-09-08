@@ -2,7 +2,6 @@ package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.Version;
-import de.app.fivegla.fiware.response.VersionResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
@@ -11,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Slf4j
-public class StatusService extends AbstractIntegrationService<VersionResponse> {
+public class StatusService extends AbstractIntegrationService<Version> {
     public StatusService(String contextBrokerUrl) {
         super(contextBrokerUrl);
     }
@@ -38,7 +37,7 @@ public class StatusService extends AbstractIntegrationService<VersionResponse> {
                 throw new FiwareIntegrationLayerException("Could not fetch version, there was an error from FIWARE.");
             } else {
                 log.info("Subscription created/updated successfully.");
-                return toObject(response.body()).getVersion();
+                return toObject(response.body());
             }
         } catch (Exception e) {
             throw new FiwareIntegrationLayerException("Could not fetch version from FIWARE.", e);
