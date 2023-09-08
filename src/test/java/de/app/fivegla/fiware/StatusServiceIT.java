@@ -9,7 +9,7 @@ class StatusServiceIT {
     void givenRunningFiwareInstanceWhenFetchingTheVersionThenTheVersionIsReturned() {
         var version = new StatusService("http://localhost:1026").getVersion();
         Assertions.assertNotNull(version);
-        Assertions.assertNotNull(version.getVersion());
+        Assertions.assertNotNull(version.getOrionLdVersion());
     }
 
 }
