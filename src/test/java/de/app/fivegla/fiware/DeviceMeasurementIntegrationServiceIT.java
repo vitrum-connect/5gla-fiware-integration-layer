@@ -15,7 +15,7 @@ class DeviceMeasurementIntegrationServiceIT {
 
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
-        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026/v2");
+        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026");
         var device = Device.builder().id("integration-test:" + UUID.randomUUID()).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id("integration-test:" + UUID.randomUUID()).refDevice(device.getId()).numValue(2.4).location(location).build();
@@ -25,7 +25,7 @@ class DeviceMeasurementIntegrationServiceIT {
 
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
-        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026/v2");
+        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026");
         String deviceId = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
@@ -39,7 +39,7 @@ class DeviceMeasurementIntegrationServiceIT {
 
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
-        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026/v2");
+        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026");
         String deviceId = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
@@ -63,7 +63,7 @@ class DeviceMeasurementIntegrationServiceIT {
 
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
-        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026/v2");
+        var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService("http://localhost:1026");
         String deviceId = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();

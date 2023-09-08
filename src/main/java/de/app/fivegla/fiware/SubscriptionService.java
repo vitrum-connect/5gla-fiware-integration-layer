@@ -36,7 +36,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         var httpClient = HttpClient.newHttpClient();
         var subscription = createSubscriptionForType(type);
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/subscriptions"))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
         try {
@@ -61,7 +61,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
     private void removeSubscription(Subscription subscription) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/subscriptions/" + subscription.getId()))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions/" + subscription.getId()))
                 .DELETE().build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -80,7 +80,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
     public List<Subscription> findAll(Type type) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrl + "/subscriptions"))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                 .GET().build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
