@@ -3,6 +3,7 @@ package de.app.fivegla.fiware;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -17,8 +18,12 @@ public abstract class AbstractIntegrationService<T> {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
     private final String contextBrokerUrl;
 
-    public AbstractIntegrationService(String contextBrokerUrl) {
+    @Getter
+    private final String tenant;
+
+    public AbstractIntegrationService(String contextBrokerUrl, String tenant) {
         this.contextBrokerUrl = contextBrokerUrl;
+        this.tenant = tenant;
     }
 
     /**

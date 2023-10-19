@@ -11,8 +11,8 @@ import java.net.http.HttpResponse;
 
 @Slf4j
 public class StatusService extends AbstractIntegrationService<Version> {
-    public StatusService(String contextBrokerUrl) {
-        super(contextBrokerUrl);
+    public StatusService(String contextBrokerUrl, String tenant) {
+        super(contextBrokerUrl, tenant);
     }
 
     /**

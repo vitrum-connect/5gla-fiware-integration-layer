@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DeviceMeasurementIntegrationService extends AbstractEntityIntegrationService<DeviceMeasurement> {
 
-    public DeviceMeasurementIntegrationService(String contextBrokerUrl) {
-        super(contextBrokerUrl);
+    public DeviceMeasurementIntegrationService(String contextBrokerUrl, String tenant) {
+        super(contextBrokerUrl, tenant);
     }
 
 }
