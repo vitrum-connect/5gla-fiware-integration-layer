@@ -1,5 +1,6 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.CustomHeader;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.*;
 import de.app.fivegla.fiware.model.enums.Type;
@@ -38,6 +39,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                 .header("Content-Type", "application/json")
+                .header(CustomHeader.FIWARE_SERVICE, getTenant())
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -61,6 +63,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
     private void removeSubscription(Subscription subscription) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
+                .header(CustomHeader.FIWARE_SERVICE, getTenant())
                 .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions/" + subscription.getId()))
                 .DELETE().build();
         try {
@@ -80,6 +83,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
     public List<Subscription> findAll(Type type) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
+                .header(CustomHeader.FIWARE_SERVICE, getTenant())
                 .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                 .GET().build();
         try {
