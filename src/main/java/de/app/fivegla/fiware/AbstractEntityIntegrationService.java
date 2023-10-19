@@ -18,8 +18,8 @@ import java.util.Optional;
 @Slf4j
 public abstract class AbstractEntityIntegrationService<T extends Validatable> extends AbstractIntegrationService<T> {
 
-    public AbstractEntityIntegrationService(String contextBrokerUrl) {
-        super(contextBrokerUrl);
+    public AbstractEntityIntegrationService(String contextBrokerUrl, String tenant) {
+        super(contextBrokerUrl, tenant);
     }
 
     /**
@@ -36,6 +36,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
         var httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(contextBrokerUrlForCommands() + "/op/update" + "?options=keyValues"))
                 .header("Content-Type", "application/json")
+                .header("fiware-service", getTenant())
                 .POST(HttpRequest.BodyPublishers.ofString(toJson(updateOrCreateEntityRequest))).build();
         try {
             var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
@@ -61,6 +62,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
     public boolean exists(String id) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
+                .header("fiware-service", getTenant())
                 .uri(URI.create(contextBrokerUrlForCommands() + "/entities/" + id))
                 .GET().build();
         try {
@@ -86,6 +88,7 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
     public Optional<T> read(String id) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
+                .header("fiware-service", getTenant())
                 .uri(URI.create(contextBrokerUrlForCommands() + "/entities/" + id + "?options=keyValues"))
                 .GET().build();
         try {

@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DroneDeviceMeasurementIntegrationService extends AbstractEntityIntegrationService<DroneDeviceMeasurement> {
 
-    public DroneDeviceMeasurementIntegrationService(String contextBrokerUrl) {
-        super(contextBrokerUrl);
+    public DroneDeviceMeasurementIntegrationService(String contextBrokerUrl, String tenant) {
+        super(contextBrokerUrl, tenant);
     }
 
 }

@@ -22,8 +22,8 @@ import java.util.List;
 public class SubscriptionService extends AbstractIntegrationService<Subscription> {
     private final String notificationUrl;
 
-    public SubscriptionService(String contextBrokerUrl, String notificationUrl) {
-        super(contextBrokerUrl);
+    public SubscriptionService(String contextBrokerUrl, String tenant, String notificationUrl) {
+        super(contextBrokerUrl, tenant);
         this.notificationUrl = notificationUrl;
     }
 
