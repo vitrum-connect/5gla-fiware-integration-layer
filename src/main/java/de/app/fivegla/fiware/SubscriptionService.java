@@ -43,7 +43,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
                     .header("Content-Type", "application/json")
                     .header(CustomHeader.FIWARE_SERVICE, getTenant())
                     .header(CustomHeader.FIWARE_SERVICE, getTenant())
-                .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
+                    .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
             try {
                 var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
                 if (response.statusCode() != 201) {
