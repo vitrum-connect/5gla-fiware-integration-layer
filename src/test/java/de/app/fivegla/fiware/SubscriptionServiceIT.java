@@ -5,17 +5,19 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class SubscriptionServiceIT {
+import java.util.List;
+
+class SubscriptionServiceIT extends AbstractIT {
 
     @AfterEach
     void tearDown() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "default", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService(contextBrokerUrl, tenant, notificationUrls);
         fiwareIntegrationService.removeAll(Type.Device);
     }
 
     @Test
     void givenValidSubscriptionWhenSendingSubscriptionToFiwareThereShouldBeNoError() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "default", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService(contextBrokerUrl, tenant, notificationUrls);
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);
@@ -23,7 +25,7 @@ class SubscriptionServiceIT {
 
     @Test
     void givenExistingSubscriptionWhenRemovingAllSubscriptionsTheNumberOfExistingSubscriptionsShouldBeNull() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "default", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService(contextBrokerUrl, tenant, notificationUrls);
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);
@@ -36,7 +38,7 @@ class SubscriptionServiceIT {
 
     @Test
     void givenExistingSubscriptionWhenSubscribingAndResettingTheNumberOfExistingSubscriptionsShouldStayTheSame() {
-        var fiwareIntegrationService = new SubscriptionService("http://localhost:1026", "default", "http://192.168.56.1:5055/notify");
+        var fiwareIntegrationService = new SubscriptionService(contextBrokerUrl, tenant, notificationUrls);
         fiwareIntegrationService.subscribe(Type.Device);
         var subscriptions = fiwareIntegrationService.findAll(Type.Device);
         Assertions.assertNotNull(subscriptions);

@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-class DeviceIntegrationServiceIT {
+class DeviceIntegrationServiceIT extends AbstractIT {
 
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
-        var fiwareIntegrationService = new DeviceIntegrationService("http://localhost:1026", "default");
+        var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
         var device = Device.builder().id("integration-test:" + UUID.randomUUID()).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         fiwareIntegrationService.persist(device);
         Assertions.assertTrue(fiwareIntegrationService.exists(device.getId()));
@@ -21,7 +21,7 @@ class DeviceIntegrationServiceIT {
 
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
-        var fiwareIntegrationService = new DeviceIntegrationService("http://localhost:1026", "default");
+        var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
         var id = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(id).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         fiwareIntegrationService.persist(device);
@@ -32,7 +32,7 @@ class DeviceIntegrationServiceIT {
 
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
-        var fiwareIntegrationService = new DeviceIntegrationService("http://localhost:1026", "default");
+        var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
         var id = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(id).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         fiwareIntegrationService.persist(device);
@@ -51,7 +51,7 @@ class DeviceIntegrationServiceIT {
 
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
-        var fiwareIntegrationService = new DeviceIntegrationService("http://localhost:1026", "default");
+        var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
         var id = "integration-test:" + UUID.randomUUID();
         var device = Device.builder().id(id).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         fiwareIntegrationService.persist(device);
