@@ -42,7 +42,6 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
                     .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                     .header("Content-Type", "application/json")
                     .header(CustomHeader.FIWARE_SERVICE, getTenant())
-                    .header(CustomHeader.FIWARE_SERVICE, getTenant())
                     .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
             try {
                 var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
