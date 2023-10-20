@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 import java.util.UUID;
 
-class DeviceIntegrationServiceBasedOnTenantIT {
+class DeviceIntegrationServiceBasedOnTenantIT extends AbstractIT {
 
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
-        var fiwareIntegrationServiceForFoo = new DeviceIntegrationService("http://localhost:1026", "foo");
-        var fiwareIntegrationServiceForBar = new DeviceIntegrationService("http://localhost:1026", "bar");
+        var fiwareIntegrationServiceForFoo = new DeviceIntegrationService(contextBrokerUrl, "foo");
+        var fiwareIntegrationServiceForBar = new DeviceIntegrationService(contextBrokerUrl, "bar");
 
         var deviceForFoo = Device.builder().id("integration-test:" + UUID.randomUUID()).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
         var deviceForBar = Device.builder().id("integration-test:" + UUID.randomUUID()).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.Farm21Sensor.getKey())).build()).build();

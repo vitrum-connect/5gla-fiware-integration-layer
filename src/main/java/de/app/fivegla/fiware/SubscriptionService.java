@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,11 +22,11 @@ import java.util.List;
  */
 @Slf4j
 public class SubscriptionService extends AbstractIntegrationService<Subscription> {
-    private final String notificationUrl;
+    private final List<String> notificationUrls;
 
-    public SubscriptionService(String contextBrokerUrl, String tenant, String notificationUrl) {
+    public SubscriptionService(String contextBrokerUrl, String tenant, List<String> notificationUrls) {
         super(contextBrokerUrl, tenant);
-        this.notificationUrl = notificationUrl;
+        this.notificationUrls = notificationUrls;
     }
 
     public void subscribeAndReset(Type type) {
@@ -35,24 +36,26 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
 
     public void subscribe(Type type) {
         var httpClient = HttpClient.newHttpClient();
-        var subscription = createSubscriptionForType(type);
-        var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
-                .header("Content-Type", "application/json")
-                .header(CustomHeader.FIWARE_SERVICE, getTenant())
-                .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
-        try {
-            var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() != 201) {
-                log.error("Could not create subscription. Response: " + response.body());
-                log.debug("Request: " + toJson(subscription));
-                log.debug("Response: " + response.body());
-                throw new FiwareIntegrationLayerException("Could not create subscription, there was an error from FIWARE.");
-            } else {
-                log.info("Subscription created/updated successfully.");
+        var subscriptions = createSubscriptionForType(type);
+        for (var subscription : subscriptions) {
+            var httpRequest = HttpRequest.newBuilder()
+                    .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
+                    .header("Content-Type", "application/json")
+                    .header(CustomHeader.FIWARE_SERVICE, getTenant())
+                    .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
+            try {
+                var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+                if (response.statusCode() != 201) {
+                    log.error("Could not create subscription. Response: " + response.body());
+                    log.debug("Request: " + toJson(subscription));
+                    log.debug("Response: " + response.body());
+                    throw new FiwareIntegrationLayerException("Could not create subscription, there was an error from FIWARE.");
+                } else {
+                    log.info("Subscription created/updated successfully.");
+                }
+            } catch (Exception e) {
+                throw new FiwareIntegrationLayerException("Could not create/update subscription", e);
             }
-        } catch (Exception e) {
-            throw new FiwareIntegrationLayerException("Could not create/update subscription", e);
         }
     }
 
@@ -103,20 +106,25 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         }
     }
 
-    private Subscription createSubscriptionForType(Type type) {
-        return Subscription.builder()
-                .description("Subscription for " + type.getKey() + " type")
-                .subject(Subject.builder()
-                        .entities(List.of(Entity.builder()
-                                .idPattern(".*")
-                                .type(type.getKey())
-                                .build()))
-                        .build())
-                .notification(Notification.builder()
-                        .http(Http.builder()
-                                .url(notificationUrl)
-                                .build())
-                        .build())
-                .build();
+    private List<Subscription> createSubscriptionForType(Type type) {
+        var subscriptions = new ArrayList<Subscription>();
+        for (var notificationUrl : notificationUrls) {
+            var subscription = Subscription.builder()
+                    .description("Subscription for " + type.getKey() + " type")
+                    .subject(Subject.builder()
+                            .entities(List.of(Entity.builder()
+                                    .idPattern(".*")
+                                    .type(type.getKey())
+                                    .build()))
+                            .build())
+                    .notification(Notification.builder()
+                            .http(Http.builder()
+                                    .url(notificationUrl)
+                                    .build())
+                            .build())
+                    .build();
+            subscriptions.add(subscription);
+        }
+        return subscriptions;
     }
 }
