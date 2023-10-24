@@ -108,4 +108,36 @@ public abstract class AbstractEntityIntegrationService<T extends Validatable> ex
         }
     }
 
+    /**
+     * Deletes the device with the given id.
+     *
+     * @param id the id of the device to be deleted
+     * @return true if the delete operation is successful, false otherwise
+     * @throws FiwareIntegrationLayerException if an exception occurs during the delete operation
+     */
+    public boolean delete(String id) {
+        if (exists(id)) {
+            var httpClient = HttpClient.newHttpClient();
+            var httpRequest = HttpRequest.newBuilder()
+                    .header(CustomHeader.FIWARE_SERVICE, getTenant())
+                    .uri(URI.create(contextBrokerUrlForCommands() + "/entities/" + id))
+                    .DELETE().build();
+            try {
+                var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+                if (response.statusCode() != 204) {
+                    log.warn("Device with the ID '{}' does not exist. Could not delete the device.", id);
+                    log.debug("Response: " + response.body());
+                    return false;
+                } else {
+                    return true;
+                }
+            } catch (Exception e) {
+                throw new FiwareIntegrationLayerException("Could not check if device exists.", e);
+            }
+        } else {
+            log.warn("Device with the ID '{}' does not exist.", id);
+            throw new FiwareIntegrationLayerException("Could not delete the device, since it does not exist.");
+        }
+    }
+
 }

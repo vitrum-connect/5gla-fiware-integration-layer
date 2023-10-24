@@ -34,6 +34,11 @@ public class Device implements Validatable {
      */
     private DeviceCategory deviceCategory;
 
+    /**
+     * The location of the device.
+     */
+    private Location location;
+
     @Override
     public void validate() {
         if (StringUtils.isBlank(id)) {
