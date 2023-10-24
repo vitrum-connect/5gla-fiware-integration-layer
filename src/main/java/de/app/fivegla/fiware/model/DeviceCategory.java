@@ -28,4 +28,5 @@ public class DeviceCategory {
      * The value of the device category.
      */
     private List<String> value;
+
 }
