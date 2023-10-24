@@ -1,5 +1,6 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import de.app.fivegla.fiware.model.Device;
 import de.app.fivegla.fiware.model.DeviceCategory;
@@ -58,5 +59,18 @@ class DeviceIntegrationServiceIT extends AbstractIT {
         Assertions.assertTrue(fiwareIntegrationService.exists(id));
         Assertions.assertFalse(fiwareIntegrationService.exists("integration-test:does-not-exist"));
     }
+
+    @Test
+    void givenExistingDeviceWhenDeletingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
+        var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
+        var id = "integration-test:" + UUID.randomUUID();
+        var device = Device.builder().id(id).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
+        fiwareIntegrationService.persist(device);
+        Assertions.assertTrue(fiwareIntegrationService.exists(id));
+        Assertions.assertTrue(fiwareIntegrationService.delete(id));
+        Assertions.assertFalse(fiwareIntegrationService.exists(id));
+        Assertions.assertThrows(FiwareIntegrationLayerException.class, () -> fiwareIntegrationService.delete(id));
+    }
+
 
 }
