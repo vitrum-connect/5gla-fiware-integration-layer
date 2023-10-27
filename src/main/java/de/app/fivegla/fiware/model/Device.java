@@ -44,5 +44,12 @@ public class Device implements Validatable {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device must not be null.");
         }
+        if (deviceCategory == null) {
+            throw new IllegalArgumentException("The device category of the device must not be null.");
+        }
+        if (location == null) {
+            throw new IllegalArgumentException("The location of the device must not be null.");
+        }
+        location.validate();
     }
 }
