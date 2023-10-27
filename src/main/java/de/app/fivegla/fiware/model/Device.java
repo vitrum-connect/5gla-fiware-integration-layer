@@ -30,6 +30,11 @@ public class Device implements Validatable {
     private String id;
 
     /**
+     * The manufacturer ID of the device.
+     */
+    private String manufacturerSpecificId;
+
+    /**
      * The category of the device.
      */
     private DeviceCategory deviceCategory;
@@ -43,6 +48,9 @@ public class Device implements Validatable {
     public void validate() {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device must not be null.");
+        }
+        if (StringUtils.isBlank(manufacturerSpecificId)) {
+            throw new IllegalArgumentException("The manufacturer specific id of the device must not be null.");
         }
         if (deviceCategory == null) {
             throw new IllegalArgumentException("The device category of the device must not be null.");
