@@ -16,8 +16,11 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
-                .id("integration-test:" + UUID.randomUUID())
+                .id(id)
+                .manufacturerSpecificId(manufacturerSpecificId)
                 .deviceCategory(DeviceCategory.builder()
                         .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
                         .build())
@@ -32,9 +35,11 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var id = "integration-test:" + UUID.randomUUID();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
+                .manufacturerSpecificId(manufacturerSpecificId)
                 .deviceCategory(DeviceCategory.builder()
                         .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
                         .build())
@@ -51,9 +56,11 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var id = "integration-test:" + UUID.randomUUID();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
+                .manufacturerSpecificId(manufacturerSpecificId)
                 .deviceCategory(DeviceCategory.builder()
                         .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
                         .build())
@@ -78,9 +85,11 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var id = "integration-test:" + UUID.randomUUID();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
+                .manufacturerSpecificId(manufacturerSpecificId)
                 .deviceCategory(DeviceCategory.builder()
                         .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
                         .build())
@@ -96,9 +105,11 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenDeletingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var id = "integration-test:" + UUID.randomUUID();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
+                .manufacturerSpecificId(manufacturerSpecificId)
                 .deviceCategory(DeviceCategory.builder()
                         .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
                         .build())

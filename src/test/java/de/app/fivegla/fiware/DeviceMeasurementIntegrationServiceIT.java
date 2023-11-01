@@ -16,7 +16,18 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var device = Device.builder().id("integration-test:" + UUID.randomUUID()).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var deviceId = "integration-test:" + manufacturerSpecificId;
+        var device = Device.builder()
+                .id(deviceId)
+                .manufacturerSpecificId(manufacturerSpecificId)
+                .deviceCategory(DeviceCategory.builder()
+                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
+                        .build())
+                .location(Location.builder()
+                        .coordinates(List.of(2.0, 4.0))
+                        .build())
+                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id("integration-test:" + UUID.randomUUID()).refDevice(device.getId()).numValue(2.4).location(location).build();
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
@@ -26,8 +37,18 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        String deviceId = "integration-test:" + UUID.randomUUID();
-        var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var deviceId = "integration-test:" + manufacturerSpecificId;
+        var device = Device.builder()
+                .id(deviceId)
+                .manufacturerSpecificId(manufacturerSpecificId)
+                .deviceCategory(DeviceCategory.builder()
+                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
+                        .build())
+                .location(Location.builder()
+                        .coordinates(List.of(2.0, 4.0))
+                        .build())
+                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
@@ -40,8 +61,18 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        String deviceId = "integration-test:" + UUID.randomUUID();
-        var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var deviceId = "integration-test:" + manufacturerSpecificId;
+        var device = Device.builder()
+                .id(deviceId)
+                .manufacturerSpecificId(manufacturerSpecificId)
+                .deviceCategory(DeviceCategory.builder()
+                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
+                        .build())
+                .location(Location.builder()
+                        .coordinates(List.of(2.0, 4.0))
+                        .build())
+                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
@@ -64,8 +95,18 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        String deviceId = "integration-test:" + UUID.randomUUID();
-        var device = Device.builder().id(deviceId).deviceCategory(DeviceCategory.builder().value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey())).build()).build();
+        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var deviceId = "integration-test:" + manufacturerSpecificId;
+        var device = Device.builder()
+                .id(deviceId)
+                .manufacturerSpecificId(manufacturerSpecificId)
+                .deviceCategory(DeviceCategory.builder()
+                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
+                        .build())
+                .location(Location.builder()
+                        .coordinates(List.of(2.0, 4.0))
+                        .build())
+                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
