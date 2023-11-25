@@ -9,7 +9,11 @@ import java.util.UUID;
  * FIWARE IDs are used to uniquely identify entities in the FIWARE ecosystem.
  */
 @Slf4j
-public class FiwareIdGenerator {
+public final class FiwareIdGenerator {
+
+    private FiwareIdGenerator() {
+        // private constructor to prevent instantiation
+    }
 
     /**
      * Generates a unique identifier with the given prefix.
