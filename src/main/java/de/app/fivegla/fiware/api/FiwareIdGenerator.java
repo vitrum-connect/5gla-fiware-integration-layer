@@ -11,6 +11,8 @@ import java.util.UUID;
 @Slf4j
 public final class FiwareIdGenerator {
 
+    public static final int MAX_ID_LENGTH = 62;
+
     private FiwareIdGenerator() {
         // private constructor to prevent instantiation
     }
@@ -27,12 +29,9 @@ public final class FiwareIdGenerator {
     public static String id(String prefix) {
         var randomUUIDParts = UUID.randomUUID().toString().split("-");
         var fiwareId = prefix + randomUUIDParts[0] + randomUUIDParts[1];
-        if (fiwareId.length() > 62) {
-            throw new FiwareIntegrationLayerException("The generated id is too long. Please choose a shorter prefix.");
-        } else {
-            log.debug("Generated id: " + fiwareId);
-            return fiwareId;
-        }
+        check(fiwareId);
+        log.debug("Generated id: " + fiwareId);
+        return fiwareId;
     }
 
     /**
@@ -42,6 +41,20 @@ public final class FiwareIdGenerator {
      */
     public static String id() {
         return id("");
+    }
+
+    /**
+     * Checks if the given ID is valid.
+     *
+     * @param id the ID to be checked
+     * @throws FiwareIntegrationLayerException if the ID is too long
+     */
+    public static void check(String id) {
+        if (id.length() > MAX_ID_LENGTH) {
+            log.error("The id is too long. Please choose a shorter prefix.");
+            log.debug("Checked ID: " + id);
+            throw new FiwareIntegrationLayerException("The generated id is too long. Please choose a shorter prefix.");
+        }
     }
 
 }
