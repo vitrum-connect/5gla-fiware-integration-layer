@@ -1,5 +1,6 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.FiwareIdGenerator;
 import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import de.app.fivegla.fiware.model.Device;
 import de.app.fivegla.fiware.model.DeviceCategory;
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
 class DeviceIntegrationServiceBasedOnTenantIT extends AbstractIT {
 
@@ -16,8 +16,8 @@ class DeviceIntegrationServiceBasedOnTenantIT extends AbstractIT {
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var fiwareIntegrationServiceForFoo = new DeviceIntegrationService(contextBrokerUrl, "foo");
         var fiwareIntegrationServiceForBar = new DeviceIntegrationService(contextBrokerUrl, "bar");
-        var manufacturerSpecificIdForFoo = UUID.randomUUID().toString();
-        var manufacturerSpecificIdForBar = UUID.randomUUID().toString();
+        var manufacturerSpecificIdForFoo = FiwareIdGenerator.id();
+        var manufacturerSpecificIdForBar = FiwareIdGenerator.id();
 
         var deviceForFoo = Device.builder()
                 .id("integration-test:" + manufacturerSpecificIdForFoo)
