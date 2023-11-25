@@ -1,5 +1,6 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.FiwareIdGenerator;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import de.app.fivegla.fiware.model.Device;
@@ -9,14 +10,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
 class DeviceIntegrationServiceIT extends AbstractIT {
 
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
@@ -35,7 +35,7 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
@@ -56,7 +56,7 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
@@ -85,7 +85,7 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)
@@ -105,7 +105,7 @@ class DeviceIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenDeletingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var fiwareIntegrationService = new DeviceIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var id = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(id)

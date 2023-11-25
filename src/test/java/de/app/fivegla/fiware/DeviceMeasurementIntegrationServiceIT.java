@@ -1,5 +1,6 @@
 package de.app.fivegla.fiware;
 
+import de.app.fivegla.fiware.api.FiwareIdGenerator;
 import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
 import de.app.fivegla.fiware.model.Device;
 import de.app.fivegla.fiware.model.DeviceCategory;
@@ -16,7 +17,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(deviceId)
@@ -37,7 +38,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(deviceId)
@@ -61,7 +62,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(deviceId)
@@ -95,7 +96,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = UUID.randomUUID().toString();
+        var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var device = Device.builder()
                 .id(deviceId)
