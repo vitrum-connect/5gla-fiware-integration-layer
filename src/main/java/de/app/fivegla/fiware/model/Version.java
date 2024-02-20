@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware.model.cygnus;
+package de.app.fivegla.fiware.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
