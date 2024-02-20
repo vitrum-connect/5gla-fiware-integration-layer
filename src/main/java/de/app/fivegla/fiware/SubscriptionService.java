@@ -2,7 +2,7 @@ package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.CustomHeader;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.model.*;
+import de.app.fivegla.fiware.model.cygnus.*;
 import de.app.fivegla.fiware.model.enums.Type;
 import lombok.extern.slf4j.Slf4j;
 

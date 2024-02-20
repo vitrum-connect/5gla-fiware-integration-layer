@@ -1,7 +1,7 @@
 package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.model.Version;
+import de.app.fivegla.fiware.model.cygnus.Version;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;

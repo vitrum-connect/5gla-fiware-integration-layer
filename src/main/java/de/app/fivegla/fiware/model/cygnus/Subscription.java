@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware.model;
+package de.app.fivegla.fiware.model.cygnus;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
