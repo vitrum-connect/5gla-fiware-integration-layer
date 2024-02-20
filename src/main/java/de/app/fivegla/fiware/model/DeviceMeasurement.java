@@ -25,12 +25,22 @@ public class DeviceMeasurement implements Validatable {
     private final String type = Type.DeviceMeasurement.getKey();
 
     /**
-     * The ID of the device measurement.
+     * The ID of the device.
      */
     private String id;
 
     /**
-     * The location of the device measurement.
+     * The manufacturer ID of the device.
+     */
+    private String manufacturerSpecificId;
+
+    /**
+     * The category of the device.
+     */
+    private DeviceCategory deviceCategory;
+
+    /**
+     * The location of the device.
      */
     private Location location;
 
@@ -43,11 +53,6 @@ public class DeviceMeasurement implements Validatable {
      * The controlled property of the device measurement.
      */
     private String controlledProperty;
-
-    /**
-     * The device of the device measurement.
-     */
-    private String refDevice;
 
     /**
      * The date of the device measurement.
@@ -64,13 +69,16 @@ public class DeviceMeasurement implements Validatable {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device measurement must not be null or blank.");
         }
-        if (StringUtils.isBlank(refDevice)) {
-            throw new IllegalArgumentException("The device reference of the device measurement must not be null or blank.");
-        }
         if (location == null) {
             throw new IllegalArgumentException("The location of the device measurement must not be null.");
         } else {
             location.validate();
+        }
+        if (StringUtils.isBlank(manufacturerSpecificId)) {
+            throw new IllegalArgumentException("The manufacturer specific id of the device must not be null.");
+        }
+        if (deviceCategory == null) {
+            throw new IllegalArgumentException("The device category of the device must not be null.");
         }
     }
 }

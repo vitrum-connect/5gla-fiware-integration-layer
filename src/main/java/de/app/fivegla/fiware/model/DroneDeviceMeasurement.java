@@ -23,7 +23,7 @@ public class DroneDeviceMeasurement implements Validatable {
     private final String type = Type.DroneDeviceMeasurement.getKey();
 
     /**
-     * The ID of the device measurement.
+     * The ID of the device.
      */
     private String id;
 

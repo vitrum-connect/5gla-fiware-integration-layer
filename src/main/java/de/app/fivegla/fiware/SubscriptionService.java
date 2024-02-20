@@ -2,7 +2,7 @@ package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.CustomHeader;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.model.*;
+import de.app.fivegla.fiware.model.cygnus.*;
 import de.app.fivegla.fiware.model.enums.Type;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +21,7 @@ import java.util.List;
  * @see AbstractIntegrationService
  */
 @Slf4j
+@SuppressWarnings("unused")
 public class SubscriptionService extends AbstractIntegrationService<Subscription> {
     private final List<String> notificationUrls;
 

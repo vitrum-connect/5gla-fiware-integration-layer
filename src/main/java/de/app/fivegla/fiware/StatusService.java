@@ -1,7 +1,7 @@
 package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.model.Version;
+import de.app.fivegla.fiware.model.cygnus.Version;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
@@ -10,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class StatusService extends AbstractIntegrationService<Version> {
     public StatusService(String contextBrokerUrl, String tenant) {
         super(contextBrokerUrl, tenant);

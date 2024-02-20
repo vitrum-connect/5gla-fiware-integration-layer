@@ -1,8 +1,9 @@
 package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.FiwareIdGenerator;
-import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
-import de.app.fivegla.fiware.model.*;
+import de.app.fivegla.fiware.model.DeviceMeasurement;
+import de.app.fivegla.fiware.model.DroneDeviceMeasurement;
+import de.app.fivegla.fiware.model.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -16,18 +17,8 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurement = DeviceMeasurement.builder().id("integration-test:" + UUID.randomUUID()).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id("integration-test:" + UUID.randomUUID()).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
         deviceMeasurementIntegrationService.persist(droneDeviceMeasurement);
         Assertions.assertTrue(deviceMeasurementIntegrationService.exists(droneDeviceMeasurement.getId()));
@@ -38,20 +29,9 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
         deviceMeasurementIntegrationService.persist(droneDeviceMeasurement);
         Assertions.assertTrue(deviceMeasurementIntegrationService.exists(droneDeviceMeasurementId));
@@ -64,20 +44,9 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
         deviceMeasurementIntegrationService.persist(droneDeviceMeasurement);
         Assertions.assertTrue(deviceMeasurementIntegrationService.exists(droneDeviceMeasurementId));
@@ -96,20 +65,9 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
         deviceMeasurementIntegrationService.persist(droneDeviceMeasurement);
         Assertions.assertTrue(deviceMeasurementIntegrationService.exists(droneDeviceMeasurementId));

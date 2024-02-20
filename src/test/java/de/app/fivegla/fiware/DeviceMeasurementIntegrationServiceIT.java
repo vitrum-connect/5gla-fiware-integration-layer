@@ -1,16 +1,12 @@
 package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.FiwareIdGenerator;
-import de.app.fivegla.fiware.api.enums.DeviceCategoryValues;
-import de.app.fivegla.fiware.model.Device;
-import de.app.fivegla.fiware.model.DeviceCategory;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.Location;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.UUID;
 
 class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
 
@@ -19,18 +15,8 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurement = DeviceMeasurement.builder().id("integration-test:" + UUID.randomUUID()).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
         Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurement.getId()));
     }
@@ -40,23 +26,12 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
-        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurementId));
+        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceId));
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
-        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurementId));
+        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceId));
     }
 
     @Test
@@ -64,32 +39,19 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
-        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurementId));
-        var persistedDeviceMeasurement = deviceMeasurementIntegrationService.read(deviceMeasurementId);
+        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceId));
+        var persistedDeviceMeasurement = deviceMeasurementIntegrationService.read(deviceId);
         Assertions.assertTrue(persistedDeviceMeasurement.isPresent());
-        Assertions.assertEquals(deviceId, persistedDeviceMeasurement.get().getRefDevice());
         Assertions.assertEquals(2.4, persistedDeviceMeasurement.get().getNumValue());
 
         deviceMeasurement.setNumValue(8.16);
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
-        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurementId));
-        persistedDeviceMeasurement = deviceMeasurementIntegrationService.read(deviceMeasurementId);
+        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceId));
+        persistedDeviceMeasurement = deviceMeasurementIntegrationService.read(deviceId);
         Assertions.assertTrue(persistedDeviceMeasurement.isPresent());
-        Assertions.assertEquals(deviceId, persistedDeviceMeasurement.get().getRefDevice());
         Assertions.assertEquals(8.16, persistedDeviceMeasurement.get().getNumValue());
     }
 
@@ -98,21 +60,10 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
-        var device = Device.builder()
-                .id(deviceId)
-                .manufacturerSpecificId(manufacturerSpecificId)
-                .deviceCategory(DeviceCategory.builder()
-                        .value(List.of(DeviceCategoryValues.SoilScoutSensor.getKey()))
-                        .build())
-                .location(Location.builder()
-                        .coordinates(List.of(2.0, 4.0))
-                        .build())
-                .build();
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
-        var deviceMeasurement = DeviceMeasurement.builder().id(deviceMeasurementId).refDevice(device.getId()).numValue(2.4).location(location).build();
+        var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         deviceMeasurementIntegrationService.persist(deviceMeasurement);
-        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceMeasurementId));
+        Assertions.assertTrue(deviceMeasurementIntegrationService.exists(deviceId));
         Assertions.assertFalse(deviceMeasurementIntegrationService.exists("integration-test:does-not-exist"));
     }
 

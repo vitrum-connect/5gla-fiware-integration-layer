@@ -32,8 +32,8 @@ public class Location implements Validatable {
 
     @Override
     public void validate() {
-        if (coordinates == null || coordinates.size() != 2) {
-            throw new IllegalArgumentException("The coordinates must be a list of two numbers.");
+        if (coordinates == null || coordinates.size() != 2 || coordinates.get(0) == null || coordinates.get(1) == null || coordinates.get(0) == 0 || coordinates.get(1) == 0) {
+            throw new IllegalArgumentException("The coordinates must be a list of two non-empty / non-zero numbers.");
         }
     }
 }
