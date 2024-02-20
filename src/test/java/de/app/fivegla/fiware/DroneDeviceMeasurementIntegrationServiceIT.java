@@ -30,7 +30,6 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
@@ -46,7 +45,6 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        var deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();
@@ -68,7 +66,6 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
         var manufacturerSpecificId = FiwareIdGenerator.id();
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
-        String deviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
         var droneDeviceMeasurement = DroneDeviceMeasurement.builder().id(droneDeviceMeasurementId).deviceMeasurement(deviceMeasurement).channel("red").imagePath("http://localhost:8080/images/" + UUID.randomUUID()).build();

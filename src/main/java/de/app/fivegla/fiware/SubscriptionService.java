@@ -21,6 +21,7 @@ import java.util.List;
  * @see AbstractIntegrationService
  */
 @Slf4j
+@SuppressWarnings("unused")
 public class SubscriptionService extends AbstractIntegrationService<Subscription> {
     private final List<String> notificationUrls;
 

@@ -10,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class StatusService extends AbstractIntegrationService<Version> {
     public StatusService(String contextBrokerUrl, String tenant) {
         super(contextBrokerUrl, tenant);
