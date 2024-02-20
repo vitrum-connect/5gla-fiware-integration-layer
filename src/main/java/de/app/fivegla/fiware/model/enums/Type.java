@@ -8,7 +8,6 @@ import lombok.Getter;
 @Getter
 public enum Type {
 
-    Device("Device"),
     Text("Text"),
     Point("Point"),
     DeviceMeasurement("DeviceMeasurement"),
