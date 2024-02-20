@@ -35,11 +35,6 @@ public class DeviceMeasurement implements Validatable {
     private String manufacturerSpecificId;
 
     /**
-     * The category of the device.
-     */
-    private DeviceCategory deviceCategory;
-
-    /**
      * The location of the device.
      */
     private Location location;
@@ -76,9 +71,6 @@ public class DeviceMeasurement implements Validatable {
         }
         if (StringUtils.isBlank(manufacturerSpecificId)) {
             throw new IllegalArgumentException("The manufacturer specific id of the device must not be null.");
-        }
-        if (deviceCategory == null) {
-            throw new IllegalArgumentException("The device category of the device must not be null.");
         }
     }
 }
