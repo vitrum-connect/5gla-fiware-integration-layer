@@ -1,6 +1,5 @@
 package de.app.fivegla.fiware;
 
-import de.app.fivegla.fiware.api.FiwareIdGenerator;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.DroneDeviceMeasurement;
 import de.app.fivegla.fiware.model.Location;
@@ -15,7 +14,7 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
@@ -27,7 +26,7 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
@@ -42,7 +41,7 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();
@@ -63,7 +62,7 @@ class DroneDeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var deviceMeasurementIntegrationService = new DroneDeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var droneDeviceMeasurementId = "integration-test:" + UUID.randomUUID();

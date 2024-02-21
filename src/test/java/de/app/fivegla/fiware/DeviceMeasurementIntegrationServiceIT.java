@@ -1,6 +1,5 @@
 package de.app.fivegla.fiware;
 
-import de.app.fivegla.fiware.api.FiwareIdGenerator;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.Location;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +12,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingPackagePropertiesWhenFetchingTheVersionTheServiceShouldReturnTheCurrentVersion() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
@@ -24,7 +23,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenCreatingNewDevicesTheServiceShouldNotThrowAnException() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
@@ -37,7 +36,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenAlreadyExistingDeviceWhenUpdatingTheDeviceTheServiceShouldUpdateTheValuesForTheDevice() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
@@ -58,7 +57,7 @@ class DeviceMeasurementIntegrationServiceIT extends AbstractIT {
     @Test
     void givenExistingDeviceWhenCheckingIfTheDeviceDoesExistTheServiceShouldReturnTrue() {
         var deviceMeasurementIntegrationService = new DeviceMeasurementIntegrationService(contextBrokerUrl, tenant);
-        var manufacturerSpecificId = FiwareIdGenerator.id();
+        var manufacturerSpecificId = "";
         var deviceId = "integration-test:" + manufacturerSpecificId;
         var location = Location.builder().coordinates(List.of(1.0, 2.0)).build();
         var deviceMeasurement = DeviceMeasurement.builder().id(deviceId).numValue(2.4).location(location).build();
