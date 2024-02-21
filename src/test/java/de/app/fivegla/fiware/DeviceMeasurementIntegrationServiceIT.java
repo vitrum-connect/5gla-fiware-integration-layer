@@ -1,6 +1,5 @@
 package de.app.fivegla.fiware;
 
-import de.app.fivegla.fiware.api.FiwareIdChecker;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.Location;
 import org.junit.jupiter.api.Assertions;
