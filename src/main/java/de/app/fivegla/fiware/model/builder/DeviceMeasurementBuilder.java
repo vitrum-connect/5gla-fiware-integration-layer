@@ -7,6 +7,7 @@ import de.app.fivegla.fiware.model.generic.Attribute;
 import de.app.fivegla.fiware.model.generic.Metadata;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
@@ -69,6 +70,7 @@ public final class DeviceMeasurementBuilder {
         metadata.setName("dateObserved");
         metadata.setType(FiwareTypes.DATE_TIME.getKey());
         metadata.setValue(dateObserved.toString());
+        attribute.setMetadata(List.of(metadata));
         deviceMeasurement.setMeasurement(attribute);
         return this;
     }
