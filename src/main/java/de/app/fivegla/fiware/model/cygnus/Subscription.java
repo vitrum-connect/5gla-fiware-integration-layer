@@ -3,7 +3,7 @@ package de.app.fivegla.fiware.model.cygnus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.api.Validatable;
-import de.app.fivegla.fiware.model.enums.SubscriptionStatus;
+import de.app.fivegla.fiware.model.cygnus.enums.SubscriptionStatus;
 import lombok.*;
 
 import java.time.Instant;

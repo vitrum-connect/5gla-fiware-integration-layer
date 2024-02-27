@@ -1,9 +1,11 @@
 package de.app.fivegla.fiware;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.Version;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -11,7 +13,9 @@ import java.net.http.HttpResponse;
 
 @Slf4j
 @SuppressWarnings("unused")
-public class StatusService extends AbstractIntegrationService<Version> {
+public class StatusService extends AbstractIntegrationService {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     public StatusService(String contextBrokerUrl, String tenant) {
         super(contextBrokerUrl, tenant);
     }
@@ -42,6 +46,16 @@ public class StatusService extends AbstractIntegrationService<Version> {
             }
         } catch (Exception e) {
             throw new FiwareIntegrationLayerException("Could not fetch version from FIWARE.", e);
+        }
+    }
+
+    private Version toObject(String json) {
+        try {
+            var type = OBJECT_MAPPER.getTypeFactory()
+                    .constructType(Version.class);
+            return OBJECT_MAPPER.readValue(json, type);
+        } catch (IOException e) {
+            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
         }
     }
 }

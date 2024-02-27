@@ -1,11 +1,13 @@
 package de.app.fivegla.fiware;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import de.app.fivegla.fiware.api.CustomHeader;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import de.app.fivegla.fiware.model.cygnus.*;
-import de.app.fivegla.fiware.model.enums.Type;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -22,7 +24,9 @@ import java.util.List;
  */
 @Slf4j
 @SuppressWarnings("unused")
-public class SubscriptionService extends AbstractIntegrationService<Subscription> {
+public class SubscriptionService extends AbstractIntegrationService {
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final List<String> notificationUrls;
 
     public SubscriptionService(String contextBrokerUrl, String tenant, List<String> notificationUrls) {
@@ -30,12 +34,12 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         this.notificationUrls = notificationUrls;
     }
 
-    public void subscribeAndReset(Type type) {
+    public void subscribeAndReset(String type) {
         removeAll(type);
         subscribe(type);
     }
 
-    public void subscribe(Type type) {
+    public void subscribe(String type) {
         var httpClient = HttpClient.newHttpClient();
         var subscriptions = createSubscriptionForType(type);
         for (var subscription : subscriptions) {
@@ -60,7 +64,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         }
     }
 
-    public void removeAll(Type type) {
+    public void removeAll(String type) {
         findAll(type).forEach(this::removeSubscription);
     }
 
@@ -84,7 +88,7 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
         }
     }
 
-    public List<Subscription> findAll(Type type) {
+    public List<Subscription> findAll(String type) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
                 .header(CustomHeader.FIWARE_SERVICE, getTenant())
@@ -100,22 +104,57 @@ public class SubscriptionService extends AbstractIntegrationService<Subscription
                 log.info("Subscription found successfully.");
                 return toListOfObjects(response.body()).stream().filter(subscription -> subscription.getSubject().getEntities()
                         .stream()
-                        .anyMatch(entity -> entity.getType().equals(type.getKey()))).toList();
+                        .anyMatch(entity -> entity.getType().equals(type))).toList();
             }
         } catch (Exception e) {
             throw new FiwareIntegrationLayerException("Could not find subscription", e);
         }
     }
 
-    private List<Subscription> createSubscriptionForType(Type type) {
+    /**
+     * Converts the current object to a JSON string representation.
+     *
+     * @param object the object to convert
+     * @return a JSON string representing the current object
+     * @throws FiwareIntegrationLayerException if an error occurs while transforming the object to JSON
+     */
+    private String toJson(Object object) {
+        try {
+            return OBJECT_MAPPER.writer().withDefaultPrettyPrinter().writeValueAsString(object);
+        } catch (JsonProcessingException e) {
+            throw new FiwareIntegrationLayerException("Could not transform object to JSON.", e);
+        }
+    }
+
+    private Subscription toObject(String json) {
+        try {
+            var type = OBJECT_MAPPER.getTypeFactory()
+                    .constructType(Subscription.class);
+            return OBJECT_MAPPER.readValue(json, type);
+        } catch (IOException e) {
+            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
+        }
+    }
+
+    private List<Subscription> toListOfObjects(String json) {
+        try {
+            var type = OBJECT_MAPPER.getTypeFactory()
+                    .constructCollectionType(List.class, Subscription.class);
+            return OBJECT_MAPPER.readValue(json, type);
+        } catch (IOException e) {
+            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
+        }
+    }
+
+    private List<Subscription> createSubscriptionForType(String type) {
         var subscriptions = new ArrayList<Subscription>();
         for (var notificationUrl : notificationUrls) {
             var subscription = Subscription.builder()
-                    .description("Subscription for " + type.getKey() + " type")
+                    .description("Subscription for " + type + " type")
                     .subject(Subject.builder()
                             .entities(List.of(Entity.builder()
                                     .idPattern(".*")
-                                    .type(type.getKey())
+                                    .type(type)
                                     .build()))
                             .build())
                     .notification(Notification.builder()

@@ -2,7 +2,7 @@ package de.app.fivegla.fiware.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.model.api.Validatable;
-import de.app.fivegla.fiware.model.enums.Type;
+import de.app.fivegla.fiware.model.generic.Attribute;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,44 +20,24 @@ import org.apache.commons.lang3.StringUtils;
 public class DeviceMeasurement implements Validatable {
 
     /**
-     * The type of the device measurement.
-     */
-    private final String type = Type.DeviceMeasurement.getKey();
-
-    /**
-     * The ID of the device.
+     * The ID of the device measurement.
      */
     private String id;
 
     /**
-     * The manufacturer ID of the device.
+     * The type of the device measurement.
      */
-    private String manufacturerSpecificId;
+    private String type;
 
     /**
      * The location of the device.
      */
-    private Location location;
+    private Attribute location;
 
     /**
-     * The numeric value of the device measurement.
+     * The Attribute class represents an attribute with a name, type, and value.
      */
-    private double numValue;
-
-    /**
-     * The controlled property of the device measurement.
-     */
-    private String controlledProperty;
-
-    /**
-     * The date of the device measurement.
-     */
-    private String dateObserved;
-
-    /**
-     * The unit of the device measurement.
-     */
-    private String unit;
+    private Attribute measurement;
 
     @Override
     public void validate() {
@@ -66,11 +46,13 @@ public class DeviceMeasurement implements Validatable {
         }
         if (location == null) {
             throw new IllegalArgumentException("The location of the device measurement must not be null.");
-        } else {
-            location.validate();
         }
-        if (StringUtils.isBlank(manufacturerSpecificId)) {
-            throw new IllegalArgumentException("The manufacturer specific id of the device must not be null.");
+        if (measurement == null) {
+            throw new IllegalArgumentException("The measurement of the device measurement must not be null.");
         }
+    }
+
+    public String asJson() {
+        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"location\":" + location.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
     }
 }

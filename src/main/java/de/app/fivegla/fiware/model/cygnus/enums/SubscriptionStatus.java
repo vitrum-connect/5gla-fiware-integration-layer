@@ -1,4 +1,4 @@
-package de.app.fivegla.fiware.model.enums;
+package de.app.fivegla.fiware.model.cygnus.enums;
 
 public enum SubscriptionStatus {
     active,
