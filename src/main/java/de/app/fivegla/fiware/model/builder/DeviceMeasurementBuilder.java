@@ -14,7 +14,7 @@ import java.time.Instant;
  */
 public final class DeviceMeasurementBuilder {
 
-    private DeviceMeasurement deviceMeasurement;
+    private final DeviceMeasurement deviceMeasurement;
 
     /**
      * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
