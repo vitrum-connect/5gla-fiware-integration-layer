@@ -1,13 +1,7 @@
 package de.app.fivegla.fiware;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Abstract integration service.

@@ -14,7 +14,7 @@ public enum FiwareTypes {
     GEO_POINT("geo:point"),
     DATE_TIME("DateTime");
 
-    private String key;
+    private final String key;
 
     FiwareTypes(String key) {
         this.key = key;
