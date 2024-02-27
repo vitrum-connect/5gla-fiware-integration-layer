@@ -2,7 +2,7 @@ package de.app.fivegla.fiware.model.cygnus;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.model.api.Validatable;
-import de.app.fivegla.fiware.model.enums.AttrsFormat;
+import de.app.fivegla.fiware.model.cygnus.enums.AttrsFormat;
 import lombok.*;
 
 import java.util.Date;
