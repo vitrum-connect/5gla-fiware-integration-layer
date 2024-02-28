@@ -61,16 +61,20 @@ public final class DeviceMeasurementBuilder {
      * @param dateObserved the date observed of the measurement attribute
      * @return the DeviceMeasurementBuilder instance with the updated measurement attribute
      */
-    public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved) {
+    public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved, String controlledProperty) {
         var attribute = new Attribute();
         attribute.setName(name);
         attribute.setType(type);
         attribute.setValue(value);
-        var metadata = new Metadata();
-        metadata.setName("dateObserved");
-        metadata.setType(FiwareTypes.DATE_TIME.getKey());
-        metadata.setValue(dateObserved.toString());
-        attribute.setMetadata(List.of(metadata));
+        var dateObservedMetadata = new Metadata();
+        dateObservedMetadata.setName("dateObservedMetadata");
+        dateObservedMetadata.setType(FiwareTypes.DATE_TIME.getKey());
+        dateObservedMetadata.setValue(dateObservedMetadata.toString());
+        var controlledPropertyMetadata = new Metadata();
+        controlledPropertyMetadata.setName("controlledProperty");
+        controlledPropertyMetadata.setType(FiwareTypes.TEXT.getKey());
+        controlledPropertyMetadata.setValue(controlledProperty);
+        attribute.setMetadata(List.of(dateObservedMetadata, controlledPropertyMetadata));
         deviceMeasurement.setMeasurement(attribute);
         return this;
     }

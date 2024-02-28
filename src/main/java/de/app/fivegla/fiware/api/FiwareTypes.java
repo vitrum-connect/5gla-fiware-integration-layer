@@ -12,7 +12,8 @@ import lombok.Getter;
 @Getter
 public enum FiwareTypes {
     GEO_POINT("geo:point"),
-    DATE_TIME("DateTime");
+    DATE_TIME("DateTime"),
+    TEXT("Text");
 
     private final String key;
 
