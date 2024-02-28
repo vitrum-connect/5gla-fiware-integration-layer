@@ -7,7 +7,7 @@ import de.app.fivegla.fiware.model.generic.Attribute;
 import de.app.fivegla.fiware.model.generic.Metadata;
 
 import java.time.Instant;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
@@ -61,7 +61,7 @@ public final class DeviceMeasurementBuilder {
      * @param dateObserved the date observed of the measurement attribute
      * @return the DeviceMeasurementBuilder instance with the updated measurement attribute
      */
-    public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved, String controlledProperty) {
+    public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved, MetadataEntry... metadataEntries) {
         var attribute = new Attribute();
         attribute.setName(name);
         attribute.setType(type);
@@ -70,11 +70,13 @@ public final class DeviceMeasurementBuilder {
         dateObservedMetadata.setName("dateObservedMetadata");
         dateObservedMetadata.setType(FiwareTypes.DATE_TIME.getKey());
         dateObservedMetadata.setValue(dateObservedMetadata.toString());
-        var controlledPropertyMetadata = new Metadata();
-        controlledPropertyMetadata.setName("controlledProperty");
-        controlledPropertyMetadata.setType(FiwareTypes.TEXT.getKey());
-        controlledPropertyMetadata.setValue(controlledProperty);
-        attribute.setMetadata(List.of(dateObservedMetadata, controlledPropertyMetadata));
+        if (null != metadataEntries && metadataEntries.length > 0) {
+            var metadata = new ArrayList<Metadata>();
+            for (var metadataEntry : metadataEntries) {
+                metadata.add(metadataEntry.asMetadata());
+            }
+            attribute.setMetadata(metadata);
+        }
         deviceMeasurement.setMeasurement(attribute);
         return this;
     }
@@ -92,6 +94,16 @@ public final class DeviceMeasurementBuilder {
 
     public DeviceMeasurement build() {
         return deviceMeasurement;
+    }
+
+    public record MetadataEntry(String name, String type, String value) {
+        public Metadata asMetadata() {
+            var metadata = new Metadata();
+            metadata.setName(name);
+            metadata.setType(type);
+            metadata.setValue(value);
+            return metadata;
+        }
     }
 
 }
