@@ -13,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
