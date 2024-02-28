@@ -79,15 +79,6 @@ public final class DeviceMeasurementBuilder {
         return this;
     }
 
-    public DeviceMeasurementBuilder withMetadata(String name, String type, String value) {
-        var metadata = new Metadata();
-        metadata.setName(name);
-        metadata.setType(type);
-        metadata.setValue(value);
-        deviceMeasurement.setMetadata(List.of(metadata));
-        return this;
-    }
-
     /**
      * Sets the type of the device measurement.
      *
