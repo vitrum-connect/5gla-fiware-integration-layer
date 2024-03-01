@@ -32,7 +32,7 @@ public class DeviceMeasurement implements Validatable {
     /**
      * The location of the device.
      */
-    private Location location;
+    private Location deviceLocation;
 
     /**
      * The Attribute class represents an attribute with a name, type, and value.
@@ -44,7 +44,7 @@ public class DeviceMeasurement implements Validatable {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device measurement must not be null or blank.");
         }
-        if (location == null) {
+        if (deviceLocation == null) {
             throw new IllegalArgumentException("The location of the device measurement must not be null.");
         }
         if (measurement == null) {
@@ -53,6 +53,6 @@ public class DeviceMeasurement implements Validatable {
     }
 
     public String asJson() {
-        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"location\":" + location.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
+        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"location\":" + deviceLocation.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
     }
 }

@@ -56,7 +56,7 @@ public final class DeviceMeasurementBuilder {
         var attribute = new Location();
         attribute.setLatitude(latitude);
         attribute.setLongitude(longitude);
-        deviceMeasurement.setLocation(attribute);
+        deviceMeasurement.setDeviceLocation(attribute);
         return this;
     }
 
