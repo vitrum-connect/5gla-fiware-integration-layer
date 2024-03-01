@@ -35,6 +35,6 @@ public class Metadata {
     private String value;
 
     public String asJson() {
-        return "{\"name\":\"" + name + "\",\"type\":\"" + type + "\",\"value\":" + value + "}";
+        return "{\"name\":\"" + name + "\",\"type\":\"" + type + "\",\"value\":\"" + value + "\"}";
     }
 }
