@@ -4,6 +4,7 @@ import de.app.fivegla.fiware.api.FiwareChecker;
 import de.app.fivegla.fiware.api.FiwareTypes;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.generic.Attribute;
+import de.app.fivegla.fiware.model.generic.Location;
 import de.app.fivegla.fiware.model.generic.Metadata;
 
 import java.time.Instant;
@@ -52,10 +53,9 @@ public final class DeviceMeasurementBuilder {
      * @return the DeviceMeasurementBuilder instance with the updated location
      */
     public DeviceMeasurementBuilder withLocation(double latitude, double longitude) {
-        var attribute = new Attribute();
-        attribute.setName("location");
-        attribute.setType(FiwareTypes.GEO_POINT.getKey());
-        attribute.setValue("{\"type\":\"Point\",\"coordinates\":[" + longitude + "," + latitude + "]}");
+        var attribute = new Location();
+        attribute.setLatitude(latitude);
+        attribute.setLongitude(longitude);
         deviceMeasurement.setLocation(attribute);
         return this;
     }

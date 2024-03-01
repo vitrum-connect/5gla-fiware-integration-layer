@@ -3,6 +3,7 @@ package de.app.fivegla.fiware.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.model.api.Validatable;
 import de.app.fivegla.fiware.model.generic.Attribute;
+import de.app.fivegla.fiware.model.generic.Location;
 import lombok.*;
 import org.apache.commons.lang3.StringUtils;
 
@@ -31,7 +32,7 @@ public class DeviceMeasurement implements Validatable {
     /**
      * The location of the device.
      */
-    private Attribute location;
+    private Location location;
 
     /**
      * The Attribute class represents an attribute with a name, type, and value.
