@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -34,25 +35,30 @@ public class SubscriptionService extends AbstractIntegrationService {
         this.notificationUrls = notificationUrls;
     }
 
-    public void subscribeAndReset(String type) {
-        removeAll(type);
-        subscribe(type);
-    }
-
-    public void subscribe(String type) {
+    /**
+     * Creates or updates subscriptions for the specified types.
+     *
+     * @param types The types of entities to subscribe to.
+     *              Accepts multiple arguments of type String,
+     *              each representing a different type.
+     * @throws FiwareIntegrationLayerException if there is an error creating or updating the subscription.
+     */
+    public void subscribe(String... types) {
         var httpClient = HttpClient.newHttpClient();
-        var subscriptions = createSubscriptionForType(type);
+        var subscriptions = createSubscriptions(types);
         for (var subscription : subscriptions) {
+            String json = toJson(subscription);
+            log.debug("Creating subscription: " + json);
             var httpRequest = HttpRequest.newBuilder()
                     .uri(URI.create(contextBrokerUrlForCommands() + "/subscriptions"))
                     .header("Content-Type", "application/json")
                     .header(CustomHeader.FIWARE_SERVICE, getTenant())
-                    .POST(HttpRequest.BodyPublishers.ofString(toJson(subscription))).build();
+                    .POST(HttpRequest.BodyPublishers.ofString(json)).build();
             try {
                 var response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
                 if (response.statusCode() != 201) {
                     log.error("Could not create subscription. Response: " + response.body());
-                    log.debug("Request: " + toJson(subscription));
+                    log.debug("Request: " + json);
                     log.debug("Response: " + response.body());
                     throw new FiwareIntegrationLayerException("Could not create subscription, there was an error from FIWARE.");
                 } else {
@@ -64,6 +70,42 @@ public class SubscriptionService extends AbstractIntegrationService {
         }
     }
 
+    private List<Subscription> createSubscriptions(String... types) {
+        log.debug("Creating subscriptions for types: " + Arrays.toString(types));
+        var subscriptions = new ArrayList<Subscription>();
+        for (var notificationUrl : notificationUrls) {
+            var subscription = Subscription.builder()
+                    .description("Subscription for " + Arrays.toString(types) + " type")
+                    .subject(Subject.builder()
+                            .entities(createSubscriptionEntities(types))
+                            .build())
+                    .notification(Notification.builder()
+                            .http(Http.builder()
+                                    .url(notificationUrl)
+                                    .build())
+                            .build())
+                    .build();
+            subscriptions.add(subscription);
+        }
+        return subscriptions;
+    }
+
+    private List<Entity> createSubscriptionEntities(String[] types) {
+        var entities = new ArrayList<Entity>();
+        for (var type : types) {
+            entities.add(Entity.builder()
+                    .idPattern(".*")
+                    .type(type)
+                    .build());
+        }
+        return entities;
+    }
+
+    /**
+     * Removes all subscriptions of the specified type.
+     *
+     * @param type the type of subscriptions to be removed
+     */
     public void removeAll(String type) {
         findAll(type).forEach(this::removeSubscription);
     }
@@ -88,6 +130,13 @@ public class SubscriptionService extends AbstractIntegrationService {
         }
     }
 
+    /**
+     * Finds all subscriptions of a given type.
+     *
+     * @param type The type of subscription to find.
+     * @return A list of Subscription objects matching the given type.
+     * @throws FiwareIntegrationLayerException if there was an error finding the subscriptions.
+     */
     public List<Subscription> findAll(String type) {
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
@@ -126,16 +175,6 @@ public class SubscriptionService extends AbstractIntegrationService {
         }
     }
 
-    private Subscription toObject(String json) {
-        try {
-            var type = OBJECT_MAPPER.getTypeFactory()
-                    .constructType(Subscription.class);
-            return OBJECT_MAPPER.readValue(json, type);
-        } catch (IOException e) {
-            throw new FiwareIntegrationLayerException("Could not transform JSON to object.", e);
-        }
-    }
-
     private List<Subscription> toListOfObjects(String json) {
         try {
             var type = OBJECT_MAPPER.getTypeFactory()
@@ -146,25 +185,4 @@ public class SubscriptionService extends AbstractIntegrationService {
         }
     }
 
-    private List<Subscription> createSubscriptionForType(String type) {
-        var subscriptions = new ArrayList<Subscription>();
-        for (var notificationUrl : notificationUrls) {
-            var subscription = Subscription.builder()
-                    .description("Subscription for " + type + " type")
-                    .subject(Subject.builder()
-                            .entities(List.of(Entity.builder()
-                                    .idPattern(".*")
-                                    .type(type)
-                                    .build()))
-                            .build())
-                    .notification(Notification.builder()
-                            .http(Http.builder()
-                                    .url(notificationUrl)
-                                    .build())
-                            .build())
-                    .build();
-            subscriptions.add(subscription);
-        }
-        return subscriptions;
-    }
 }
