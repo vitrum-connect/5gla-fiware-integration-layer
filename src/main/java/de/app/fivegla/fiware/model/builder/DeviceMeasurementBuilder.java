@@ -66,12 +66,13 @@ public final class DeviceMeasurementBuilder {
         attribute.setName(name);
         attribute.setType(type);
         attribute.setValue(value);
+        var metadata = new ArrayList<Metadata>();
         var dateObservedMetadata = new Metadata();
         dateObservedMetadata.setName("dateObservedMetadata");
         dateObservedMetadata.setType(FiwareTypes.DATE_TIME.getKey());
         dateObservedMetadata.setValue(dateObservedMetadata.toString());
+        metadata.add(dateObservedMetadata);
         if (null != metadataEntries && metadataEntries.length > 0) {
-            var metadata = new ArrayList<Metadata>();
             for (var metadataEntry : metadataEntries) {
                 metadata.add(metadataEntry.asMetadata());
             }
