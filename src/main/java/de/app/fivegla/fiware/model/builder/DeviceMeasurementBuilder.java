@@ -62,10 +62,10 @@ public final class DeviceMeasurementBuilder {
      * @return the DeviceMeasurementBuilder instance with the updated measurement attribute
      */
     public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved, MetadataEntry... metadataEntries) {
-        var attribute = new Attribute();
-        attribute.setName(name);
-        attribute.setType(type);
-        attribute.setValue(value);
+        var measurement = new Attribute();
+        measurement.setName(name);
+        measurement.setType(type);
+        measurement.setValue(value);
         var metadata = new ArrayList<Metadata>();
         var dateObservedMetadata = new Metadata();
         dateObservedMetadata.setName("dateObservedMetadata");
@@ -76,9 +76,9 @@ public final class DeviceMeasurementBuilder {
             for (var metadataEntry : metadataEntries) {
                 metadata.add(metadataEntry.asMetadata());
             }
-            attribute.setMetadata(metadata);
+            measurement.setMetadata(metadata);
         }
-        deviceMeasurement.setMeasurement(attribute);
+        deviceMeasurement.setMeasurement(measurement);
         return this;
     }
 
