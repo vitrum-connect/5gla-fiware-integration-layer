@@ -53,6 +53,6 @@ public class DeviceMeasurement implements Validatable {
     }
 
     public String asJson() {
-        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"location\":" + deviceLocation.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
+        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"deviceLocation\":" + deviceLocation.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
     }
 }
