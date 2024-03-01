@@ -13,6 +13,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -70,11 +71,11 @@ public class SubscriptionService extends AbstractIntegrationService {
     }
 
     private List<Subscription> createSubscriptions(String... types) {
-        log.debug("Creating subscriptions for types: " + types);
+        log.debug("Creating subscriptions for types: " + Arrays.toString(types));
         var subscriptions = new ArrayList<Subscription>();
         for (var notificationUrl : notificationUrls) {
             var subscription = Subscription.builder()
-                    .description("Subscription for " + types + " type")
+                    .description("Subscription for " + Arrays.toString(types) + " type")
                     .subject(Subject.builder()
                             .entities(createSubscriptionEntities(types))
                             .build())
