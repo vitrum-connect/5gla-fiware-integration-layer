@@ -7,6 +7,8 @@ import de.app.fivegla.fiware.model.generic.Attribute;
 import de.app.fivegla.fiware.model.generic.Metadata;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -16,6 +18,11 @@ import java.util.ArrayList;
 public final class DeviceMeasurementBuilder {
 
     private final DeviceMeasurement deviceMeasurement;
+    private final DateTimeFormatter formatter = DateTimeFormatter
+            // The supported format for the FIWARE Context Broker is "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+            // 2017-06-17T07:21:24.238Z
+            .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .withZone(ZoneId.systemDefault());
 
     /**
      * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
@@ -46,8 +53,9 @@ public final class DeviceMeasurementBuilder {
      */
     public DeviceMeasurementBuilder withLocation(double latitude, double longitude) {
         var attribute = new Attribute();
-        attribute.setValue("{\"type\":\"Point\",\"coordinates\":[" + longitude + "," + latitude + "]}");
+        attribute.setName("location");
         attribute.setType(FiwareTypes.GEO_POINT.getKey());
+        attribute.setValue("{\"type\":\"Point\",\"coordinates\":[" + longitude + "," + latitude + "]}");
         deviceMeasurement.setLocation(attribute);
         return this;
     }
@@ -68,9 +76,9 @@ public final class DeviceMeasurementBuilder {
         measurement.setValue(value);
         var metadata = new ArrayList<Metadata>();
         var dateObservedMetadata = new Metadata();
-        dateObservedMetadata.setName("dateObservedMetadata");
+        dateObservedMetadata.setName("dateObserved");
         dateObservedMetadata.setType(FiwareTypes.DATE_TIME.getKey());
-        dateObservedMetadata.setValue(dateObservedMetadata.toString());
+        dateObservedMetadata.setValue(formatter.format(dateObserved));
         metadata.add(dateObservedMetadata);
         if (null != metadataEntries && metadataEntries.length > 0) {
             for (var metadataEntry : metadataEntries) {
