@@ -51,6 +51,10 @@ public class Attribute {
     }
 
     private String metadataAsJson() {
-        return metadata.stream().map(Metadata::asJson).collect(Collectors.joining(","));
+        if (metadata == null || metadata.isEmpty()) {
+            return "";
+        } else {
+            return metadata.stream().map(Metadata::asJson).collect(Collectors.joining(","));
+        }
     }
 }
