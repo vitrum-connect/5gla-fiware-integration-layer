@@ -10,14 +10,18 @@ import lombok.Getter;
  * - DATE_TIME: Represents a date and time.
  */
 @Getter
-public enum FiwareTypes {
+public enum FiwareType {
     GEO_POINT("geo:json"),
     DATE_TIME("DateTime"),
-    TEXT("Text");
+    TEXT("Text"),
+    NUMBER("Number"),
+    BOOLEAN("Boolean"),
+    STRUCTURED_VALUE("StructuredValue"),
+    NONE("None");
 
     private final String key;
 
-    FiwareTypes(String key) {
+    FiwareType(String key) {
         this.key = key;
     }
 }

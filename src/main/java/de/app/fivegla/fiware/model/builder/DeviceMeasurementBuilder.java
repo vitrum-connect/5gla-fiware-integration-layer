@@ -1,16 +1,11 @@
 package de.app.fivegla.fiware.model.builder;
 
 import de.app.fivegla.fiware.api.FiwareChecker;
-import de.app.fivegla.fiware.api.FiwareTypes;
+import de.app.fivegla.fiware.api.FiwareType;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.generic.Attribute;
-import de.app.fivegla.fiware.model.generic.Location;
-import de.app.fivegla.fiware.model.generic.Metadata;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 /**
  * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
@@ -19,11 +14,7 @@ import java.util.ArrayList;
 public final class DeviceMeasurementBuilder {
 
     private final DeviceMeasurement deviceMeasurement;
-    private final DateTimeFormatter formatter = DateTimeFormatter
-            // The supported format for the FIWARE Context Broker is "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
-            // 2017-06-17T07:21:24.238Z
-            .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            .withZone(ZoneId.systemDefault());
+
 
     /**
      * The DeviceMeasurementBuilder class is responsible for building instances of the DeviceMeasurement class.
@@ -46,46 +37,22 @@ public final class DeviceMeasurementBuilder {
     }
 
     /**
-     * Sets the latitude and longitude of the device's location.
-     *
-     * @param latitude  the latitude of the device's location
-     * @param longitude the longitude of the device's location
-     * @return the DeviceMeasurementBuilder instance with the updated location
-     */
-    public DeviceMeasurementBuilder withLocation(double latitude, double longitude) {
-        var attribute = new Location();
-        attribute.setLatitude(latitude);
-        attribute.setLongitude(longitude);
-        deviceMeasurement.setDeviceLocation(attribute);
-        return this;
-    }
-
-    /**
      * Sets a measurement attribute for the DeviceMeasurement object.
      *
-     * @param name         the name of the measurement attribute
-     * @param type         the type of the measurement attribute
-     * @param value        the value of the measurement attribute
-     * @param dateObserved the date observed of the measurement attribute
+     * @param name        the name of the measurement attribute
+     * @param fiwareType  the fiwareType of the measurement attribute
+     * @param value       the value of the measurement attribute
+     * @param dateCreated the date observed of the measurement attribute
      * @return the DeviceMeasurementBuilder instance with the updated measurement attribute
      */
-    public DeviceMeasurementBuilder withMeasurement(String name, String type, String value, Instant dateObserved, MetadataEntry... metadataEntries) {
+    public DeviceMeasurementBuilder withMeasurement(String name, FiwareType fiwareType, String value, Instant dateCreated, double latitude, double longitude) {
         var measurement = new Attribute();
         measurement.setName(name);
-        measurement.setType(type);
+        measurement.setType(fiwareType.getKey());
         measurement.setValue(value);
-        var metadata = new ArrayList<Metadata>();
-        var dateObservedMetadata = new Metadata();
-        dateObservedMetadata.setName("dateObserved");
-        dateObservedMetadata.setType(FiwareTypes.DATE_TIME.getKey());
-        dateObservedMetadata.setValue(formatter.format(dateObserved));
-        metadata.add(dateObservedMetadata);
-        if (null != metadataEntries && metadataEntries.length > 0) {
-            for (var metadataEntry : metadataEntries) {
-                metadata.add(metadataEntry.asMetadata());
-            }
-            measurement.setMetadata(metadata);
-        }
+        measurement.setDateCreated(dateCreated);
+        measurement.setLatitude(latitude);
+        measurement.setLongitude(longitude);
         deviceMeasurement.setMeasurement(measurement);
         return this;
     }
@@ -103,16 +70,6 @@ public final class DeviceMeasurementBuilder {
 
     public DeviceMeasurement build() {
         return deviceMeasurement;
-    }
-
-    public record MetadataEntry(String name, String type, String value) {
-        public Metadata asMetadata() {
-            var metadata = new Metadata();
-            metadata.setName(name);
-            metadata.setType(type);
-            metadata.setValue(value);
-            return metadata;
-        }
     }
 
 }

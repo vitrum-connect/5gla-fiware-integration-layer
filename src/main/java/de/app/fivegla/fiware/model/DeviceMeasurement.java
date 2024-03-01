@@ -3,9 +3,14 @@ package de.app.fivegla.fiware.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import de.app.fivegla.fiware.model.api.Validatable;
 import de.app.fivegla.fiware.model.generic.Attribute;
-import de.app.fivegla.fiware.model.generic.Location;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
+
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Device measurement.
@@ -19,6 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DeviceMeasurement implements Validatable {
 
+    private final DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            .withZone(ZoneId.systemDefault());
+
     /**
      * The ID of the device measurement.
      */
@@ -30,11 +39,6 @@ public class DeviceMeasurement implements Validatable {
     private String type;
 
     /**
-     * The location of the device.
-     */
-    private Location deviceLocation;
-
-    /**
      * The Attribute class represents an attribute with a name, type, and value.
      */
     private Attribute measurement;
@@ -44,15 +48,12 @@ public class DeviceMeasurement implements Validatable {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device measurement must not be null or blank.");
         }
-        if (deviceLocation == null) {
-            throw new IllegalArgumentException("The location of the device measurement must not be null.");
-        }
         if (measurement == null) {
             throw new IllegalArgumentException("The measurement of the device measurement must not be null.");
         }
     }
 
     public String asJson() {
-        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"deviceLocation\":" + deviceLocation.asJson() + ",\"measurement\":" + measurement.asJson() + "}";
+        return "{\"id\":\"" + id + "\",\"type\":\"" + type + "\",\"measurement\":" + measurement.asJson() + "}";
     }
 }
