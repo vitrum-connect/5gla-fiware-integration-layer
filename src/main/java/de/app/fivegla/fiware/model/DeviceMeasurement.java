@@ -126,6 +126,9 @@ public class DeviceMeasurement implements Validatable {
         if (StringUtils.isBlank(id)) {
             throw new IllegalArgumentException("The id of the device measurement must not be null or blank.");
         }
+        if (StringUtils.isBlank(type)) {
+            throw new IllegalArgumentException("The type of the device measurement must not be null or blank.");
+        }
     }
 
 }
