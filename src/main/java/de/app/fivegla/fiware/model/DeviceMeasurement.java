@@ -98,39 +98,39 @@ public class DeviceMeasurement implements Validatable {
                 "  \"name\":\"" + name + "\"," +
                 "  \"type\":\"" + type + "\"," +
                 "  \"value\":" + value + "," +
-                "  \"externalDataLink\":" + externalDataReferenceAsJson() + "," +
-                "  \"dateCreated\":" + dateCreatedAsJson() + "," +
-                "  \"location\":" + locationAsJson() +
+                externalDataReferenceAsJson() +
+                dateCreatedAsJson() +
+                locationAsJson() +
                 "}";
     }
 
     private String externalDataReferenceAsJson() {
         if (StringUtils.isBlank(externalDataReference)) {
-            return "{}";
+            return "";
         } else {
-            return "{" +
+            return " \"externalDataLink\": {" +
                     "  \"type\":\"" + FiwareType.TEXT.getKey() + "\"," +
                     "  \"value\":\"" + externalDataReference + "\"" +
-                    "}";
+                    "},";
         }
     }
 
     private String dateCreatedAsJson() {
         if (null == dateCreated) {
-            return "{}";
+            return "";
         } else {
-            return "{" +
+            return "\"externalDataLink\":{" +
                     "  \"type\":\"" + FiwareType.DATE_TIME.getKey() + "\"," +
                     "  \"value\":\"" + formatter.format(dateCreated) + "\"" +
-                    "}";
+                    "},";
         }
     }
 
     private String locationAsJson() {
         if (latitude == 0.0 && longitude == 0.0) {
-            return "{}";
+            return "";
         } else {
-            return "{" +
+            return "\"location\":{" +
                     "  \"type\":\"" + FiwareType.GEO_POINT.getKey() + "\"," +
                     "  \"value\": {" +
                     "    \"type\":\"Point\"," +
