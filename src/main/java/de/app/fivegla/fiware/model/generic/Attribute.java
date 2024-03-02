@@ -69,22 +69,29 @@ public class Attribute {
     private double longitude;
 
     public String asJson() {
-        return " {" +
+        return "{" +
                 "  \"name\":\"" + name + "\"," +
                 "  \"type\":\"" + type + "\"," +
                 "  \"value\":" + value + "," +
-                "  \"metadata\": {" +
-                "    \"dateCreated\": {" + dateCreatedAsJson() + "}," +
-                "    \"location\": {" + locationAsJson() + "}" +
-                "  }" +
+                "  \"dateCreated\":" + dateCreatedAsJson() + "," +
+                "  \"location\":" + locationAsJson() +
                 "}";
     }
 
     private String dateCreatedAsJson() {
-        return "\"type\":\"" + FiwareType.DATE_TIME.getKey() + "\",\"value\":\"" + formatter.format(dateCreated) + "\"";
+        return "{" +
+                "  \"type\":\"" + FiwareType.DATE_TIME.getKey() + "\"," +
+                "  \"value\":\"" + formatter.format(dateCreated) + "\"" +
+                "}";
     }
 
     private String locationAsJson() {
-        return "\"type\":\"" + FiwareType.GEO_POINT.getKey() + "\",\"value\":{\"type\":\"Point\",\"coordinates\":[" + longitude + "," + latitude + "]}";
+        return "{" +
+                "  \"type\":\"" + FiwareType.GEO_POINT.getKey() + "\"," +
+                "  \"value\": {" +
+                "    \"type\":\"Point\"," +
+                "    \"coordinates\": [" + longitude + "," + latitude + "]" +
+                "  }" +
+                "}";
     }
 }
