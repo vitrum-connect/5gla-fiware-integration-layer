@@ -98,27 +98,46 @@ public class DeviceMeasurement implements Validatable {
                 "  \"name\":\"" + name + "\"," +
                 "  \"type\":\"" + type + "\"," +
                 "  \"value\":" + value + "," +
-                "  \"externalDataLink\":" + (StringUtils.isNotBlank(externalDataReference) ? externalDataReference : " ") + "\"," +
+                "  \"externalDataLink\":" + externalDataReferenceAsJson() + "," +
                 "  \"dateCreated\":" + dateCreatedAsJson() + "," +
                 "  \"location\":" + locationAsJson() +
                 "}";
     }
 
+    private String externalDataReferenceAsJson() {
+        if (StringUtils.isBlank(externalDataReference)) {
+            return "{}";
+        } else {
+            return "{" +
+                    "  \"type\":\"" + FiwareType.TEXT.getKey() + "\"," +
+                    "  \"value\":\"" + externalDataReference + "\"" +
+                    "}";
+        }
+    }
+
     private String dateCreatedAsJson() {
-        return "{" +
-                "  \"type\":\"" + FiwareType.DATE_TIME.getKey() + "\"," +
-                "  \"value\":\"" + formatter.format(dateCreated) + "\"" +
-                "}";
+        if (null == dateCreated) {
+            return "{}";
+        } else {
+            return "{" +
+                    "  \"type\":\"" + FiwareType.DATE_TIME.getKey() + "\"," +
+                    "  \"value\":\"" + formatter.format(dateCreated) + "\"" +
+                    "}";
+        }
     }
 
     private String locationAsJson() {
-        return "{" +
-                "  \"type\":\"" + FiwareType.GEO_POINT.getKey() + "\"," +
-                "  \"value\": {" +
-                "    \"type\":\"Point\"," +
-                "    \"coordinates\": [" + longitude + "," + latitude + "]" +
-                "  }" +
-                "}";
+        if (latitude == 0.0 && longitude == 0.0) {
+            return "{}";
+        } else {
+            return "{" +
+                    "  \"type\":\"" + FiwareType.GEO_POINT.getKey() + "\"," +
+                    "  \"value\": {" +
+                    "    \"type\":\"Point\"," +
+                    "    \"coordinates\": [" + longitude + "," + latitude + "]" +
+                    "  }" +
+                    "}";
+        }
     }
 
     @Override
