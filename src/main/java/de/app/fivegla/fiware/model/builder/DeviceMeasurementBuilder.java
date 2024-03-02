@@ -3,7 +3,6 @@ package de.app.fivegla.fiware.model.builder;
 import de.app.fivegla.fiware.api.FiwareChecker;
 import de.app.fivegla.fiware.api.FiwareType;
 import de.app.fivegla.fiware.model.DeviceMeasurement;
-import de.app.fivegla.fiware.model.generic.Attribute;
 
 import java.time.Instant;
 
@@ -45,15 +44,24 @@ public final class DeviceMeasurementBuilder {
      * @param dateCreated the date observed of the measurement attribute
      * @return the DeviceMeasurementBuilder instance with the updated measurement attribute
      */
-    public DeviceMeasurementBuilder withMeasurement(String name, FiwareType fiwareType, String value, Instant dateCreated, double latitude, double longitude) {
-        var measurement = new Attribute();
-        measurement.setName(name);
-        measurement.setType(fiwareType.getKey());
-        measurement.setValue(value);
-        measurement.setDateCreated(dateCreated);
-        measurement.setLatitude(latitude);
-        measurement.setLongitude(longitude);
-        deviceMeasurement.setMeasurement(measurement);
+    public DeviceMeasurementBuilder withMeasurement(String name, FiwareType fiwareType, double value, Instant dateCreated, double latitude, double longitude) {
+        deviceMeasurement.setName(name);
+        deviceMeasurement.setType(fiwareType.getKey());
+        deviceMeasurement.setValue(value);
+        deviceMeasurement.setDateCreated(dateCreated);
+        deviceMeasurement.setLatitude(latitude);
+        deviceMeasurement.setLongitude(longitude);
+        return this;
+    }
+
+    /**
+     * Sets the external data reference for the device measurement.
+     *
+     * @param externalDataReference the external data reference to be set
+     * @return the DeviceMeasurementBuilder instance
+     */
+    public DeviceMeasurementBuilder withExternalDataReference(String externalDataReference) {
+        deviceMeasurement.setExternalDataReference(externalDataReference);
         return this;
     }
 
@@ -69,6 +77,7 @@ public final class DeviceMeasurementBuilder {
     }
 
     public DeviceMeasurement build() {
+        deviceMeasurement.validate();
         return deviceMeasurement;
     }
 

@@ -28,7 +28,6 @@ public class DeviceMeasurementIntegrationService extends AbstractIntegrationServ
      * @param entity the device to create
      */
     public void persist(DeviceMeasurement entity) {
-        entity.validate();
         var updateOrCreateEntityRequest = UpdateOrCreateDeviceMeasurementRequest.builder()
                 .entities(List.of(entity))
                 .build();
