@@ -2,9 +2,7 @@ package de.app.fivegla.fiware.model;
 
 import de.app.fivegla.fiware.api.FiwareType;
 import de.app.fivegla.fiware.model.api.Validatable;
-import de.app.fivegla.fiware.model.internal.DateTimeAttribute;
-import de.app.fivegla.fiware.model.internal.NumberAttribute;
-import de.app.fivegla.fiware.model.internal.TextAttribute;
+import de.app.fivegla.fiware.model.internal.Attribute;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -15,10 +13,10 @@ import org.apache.commons.lang3.StringUtils;
 public record DeviceMeasurement(
         String id,
         String type,
-        TextAttribute name,
-        NumberAttribute controlledProperty,
-        DateTimeAttribute dateCreated,
-        TextAttribute externalDataReference,
+        Attribute name,
+        Attribute controlledProperty,
+        Attribute dateCreated,
+        Attribute externalDataReference,
         double latitude,
         double longitude
 ) implements Validatable {
