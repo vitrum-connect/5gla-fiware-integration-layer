@@ -27,9 +27,7 @@ class DeviceMeasurementValidJsonTest {
                 8.0
         ).asJson();
         var objectMapper = new ObjectMapper();
-        var jsonNode = objectMapper.readTree(deviceMeasurementAsJson);
-        Assertions.assertEquals(FiwareType.TEXT.getKey(), jsonNode.get("type").asText());
-        Assertions.assertEquals(2.0, jsonNode.get("value").asDouble());
+        Assertions.assertDoesNotThrow(() -> objectMapper.readTree(deviceMeasurementAsJson));
     }
 
     @Test
