@@ -33,7 +33,7 @@ public class DeviceMeasurementIntegrationService extends AbstractIntegrationServ
                 .build();
         var httpClient = HttpClient.newHttpClient();
         var httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create(contextBrokerUrlForCommands() + "/op/update" + "?options=keyValues"))
+                .uri(URI.create(contextBrokerUrlForCommands() + "/op/update"))
                 .header("Content-Type", "application/json")
                 .header(CustomHeader.FIWARE_SERVICE, getTenant())
                 .POST(HttpRequest.BodyPublishers.ofString(updateOrCreateEntityRequest.asJson())).build();
