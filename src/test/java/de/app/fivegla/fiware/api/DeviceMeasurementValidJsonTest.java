@@ -33,7 +33,7 @@ class DeviceMeasurementValidJsonTest {
     }
 
     @Test
-    void givenDeviceMeasurement_WhenCreatingJson_ThenTheStructureShouldMatch() throws Exception {
+    void givenDeviceMeasurement_WhenCreatingJson_ThenTheStructureShouldMatch() {
         String expectedStructure = """
                  {
                    "id": "b30a9d8d-66b3-4b43-b9ef-84e84573a2f1",
