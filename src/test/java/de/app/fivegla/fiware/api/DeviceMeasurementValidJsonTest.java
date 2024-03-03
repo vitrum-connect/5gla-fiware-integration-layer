@@ -15,7 +15,7 @@ import java.util.UUID;
 class DeviceMeasurementValidJsonTest {
 
     @Test
-    void givenDeviceMeasurement_WhenCreatingJson_ThenTheResultShouldBeValidJson() throws Exception {
+    void givenDeviceMeasurement_WhenCreatingJson_ThenTheResultShouldBeValidJson() {
         var deviceMeasurementAsJson = new DeviceMeasurement(
                 UUID.randomUUID().toString(),
                 "SENTEK_SENSOR",
