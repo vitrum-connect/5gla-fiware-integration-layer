@@ -6,7 +6,7 @@
 
     <groupId>de.app.5gla</groupId>
     <artifactId>fiware-integration-layer</artifactId>
-    <version>12.2.0</version>
+    <version>13.0.0</version>
 
     <name>5gLa FIWARE integration layer</name>
     <url>https://github.com/vitrum-connect/5gla-fiware-integration-layer</url>
