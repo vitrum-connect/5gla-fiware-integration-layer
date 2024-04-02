@@ -7,8 +7,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Device measurement.
- * <p>
- * See <a href="https://github.com/smart-data-models/dataModel.Device/blob/master/DeviceMeasurement/README.md">...</a> for more information.
  */
 public record DeviceMeasurement(
         String id,
@@ -40,7 +38,7 @@ public record DeviceMeasurement(
             return "{}";
         } else {
             return "{" +
-                    "  \"type\":\"" + FiwareType.GEO_POINT.getKey() + "\"," +
+                    "  \"type\":\"" + FiwareType.GEO_JSON.getKey() + "\"," +
                     "  \"value\": {" +
                     "    \"type\":\"Point\"," +
                     "    \"coordinates\": [" + longitude + "," + latitude + "]" +
