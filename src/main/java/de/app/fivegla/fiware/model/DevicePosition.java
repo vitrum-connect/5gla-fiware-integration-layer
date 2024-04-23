@@ -5,18 +5,17 @@ import de.app.fivegla.fiware.model.internal.Attribute;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Device measurement.
+ * Device position.
  */
-public record DeviceMeasurement(
+public record DevicePosition(
         String id,
         String type,
-        Attribute name,
-        Attribute controlledProperty,
+        Attribute transactionId,
+        Attribute deviceId,
         Attribute dateCreated,
-        Attribute externalDataReference,
         double latitude,
         double longitude
-) implements FiwareEntity, Validatable {
+) implements Validatable, FiwareEntity {
 
     @Override
     public String asJson() {
@@ -24,9 +23,8 @@ public record DeviceMeasurement(
         return "{" +
                 "  \"id\":\"" + id + "\"," +
                 "  \"type\":\"" + type + "\"," +
-                "  \"name\":" + name.asJson() + "," +
-                "  \"controlledProperty\":" + controlledProperty.asJson() + "," +
-                "  \"externalDataReference\":" + externalDataReference.asJson() + "," +
+                "  \"transactionId\":" + transactionId.asJson() + "," +
+                "  \"deviceId\":" + deviceId.asJson() + "," +
                 "  \"dateCreated\":" + dateCreated.asJson() + "," +
                 "  \"location\":" + locationAsJson(latitude, longitude) +
                 "}";
@@ -35,10 +33,10 @@ public record DeviceMeasurement(
     @Override
     public void validate() {
         if (StringUtils.isBlank(id)) {
-            throw new IllegalArgumentException("The id of the device measurement must not be null or blank.");
+            throw new IllegalArgumentException("The id of the device position must not be null or blank.");
         }
         if (StringUtils.isBlank(type)) {
-            throw new IllegalArgumentException("The type of the device measurement must not be null or blank.");
+            throw new IllegalArgumentException("The type of the device position must not be null or blank.");
         }
     }
 
