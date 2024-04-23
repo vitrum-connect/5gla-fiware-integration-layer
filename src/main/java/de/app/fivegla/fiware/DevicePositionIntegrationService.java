@@ -16,9 +16,9 @@ import java.util.List;
  * Integration service for FIWARE to send requests to the context broker.
  */
 @Slf4j
-public class DevicePositiontIntegrationService extends AbstractIntegrationService {
+public class DevicePositionIntegrationService extends AbstractIntegrationService {
 
-    public DevicePositiontIntegrationService(String contextBrokerUrl, String tenant) {
+    public DevicePositionIntegrationService(String contextBrokerUrl, String tenant) {
         super(contextBrokerUrl, tenant);
     }
 
