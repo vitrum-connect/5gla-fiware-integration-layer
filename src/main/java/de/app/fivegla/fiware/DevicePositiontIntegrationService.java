@@ -2,7 +2,6 @@ package de.app.fivegla.fiware;
 
 import de.app.fivegla.fiware.api.CustomHeader;
 import de.app.fivegla.fiware.api.FiwareIntegrationLayerException;
-import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.DevicePosition;
 import de.app.fivegla.fiware.request.UpdateOrCreateDeviceMeasurementRequest;
 import lombok.extern.slf4j.Slf4j;

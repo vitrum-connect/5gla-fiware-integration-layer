@@ -1,6 +1,7 @@
 package de.app.fivegla.fiware.request;
 
 import de.app.fivegla.fiware.model.DeviceMeasurement;
+import de.app.fivegla.fiware.model.FiwareEntity;
 import de.app.fivegla.fiware.request.enums.ActionType;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,13 +26,13 @@ public class UpdateOrCreateDeviceMeasurementRequest {
     /**
      * The entities.
      */
-    private List<DeviceMeasurement> entities;
+    private List<FiwareEntity> entities;
 
     public String asJson() {
         return "{\"actionType\":\"" + actionType + "\",\"entities\":[" + entitiesAsJson() + "]}";
     }
 
     private String entitiesAsJson() {
-        return entities.stream().map(DeviceMeasurement::asJson).collect(Collectors.joining(","));
+        return entities.stream().map(FiwareEntity::asJson).collect(Collectors.joining(","));
     }
 }
