@@ -1,6 +1,5 @@
 package de.app.fivegla.fiware.request;
 
-import de.app.fivegla.fiware.model.DeviceMeasurement;
 import de.app.fivegla.fiware.model.FiwareEntity;
 import de.app.fivegla.fiware.request.enums.ActionType;
 import lombok.Builder;
